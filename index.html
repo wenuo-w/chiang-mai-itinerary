@@ -1,1575 +1,1018 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-TW" class="h-full">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>清邁 5 天 4 夜泰式漫遊行</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>清邁五日遊 | Chiang Mai Travel App</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts: Playfair Display & Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+  <!-- SortableJS (用於長按拖移排序) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            thai: {
+              green: '#2A4736',   <!-- 泰北深綠 -->
+              leaf: '#4A6B53',    <!-- 葉綠 -->
+              cream: '#F9F6F0',   <!-- 奶油白主色 -->
+              card: '#FFFFFF',    <!-- 卡片白 -->
+              gold: '#C5A059',    <!-- 泰式金 -->
+              accent: '#D97706',  <!-- 溫暖橘 -->
+              sand: '#EFECE6'     <!-- 淺灰沙 -->
+            }
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'serif'],
+            sans: ['"Noto Sans TC"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* 隱藏 Scrollbar */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    
-    <!-- HTML2PDF Library for PDF Download -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    
-    <style>
-        :root {
-            --primary-green: #1F4E3D;
-            --accent-gold: #D4AF37;
-            --warm-bg: #FAF6EE;
-            --card-bg: #FFFFFF;
-            --text-dark: #2C221E;
-            --terracotta: #8C4227;
-            --border-color: #E5D9C5;
-            --danger-red: #D32F2F;
-            --success-green: #388E3C;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Poppins', 'Noto Serif TC', sans-serif;
-            background-color: var(--warm-bg);
-            color: var(--text-dark);
-            line-height: 1.6;
-            padding-bottom: 40px;
-        }
-
-        /* ============ Header & Navigation ============ */
-        .header {
-            background: linear-gradient(135deg, var(--primary-green) 0%, #123327 100%);
-            color: var(--accent-gold);
-            text-align: center;
-            padding: 40px 20px 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            border-bottom: 5px solid var(--accent-gold);
-        }
-
-        .header h1 {
-            font-size: clamp(1.8rem, 5vw, 2.2rem);
-            letter-spacing: 2px;
-            margin-bottom: 8px;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
-        }
-
-        .header p {
-            color: #E2D4B7;
-            font-size: clamp(0.9rem, 3vw, 1.1rem);
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 25px auto;
-            padding: 0 15px;
-        }
-
-        /* ============ Navigation Tabs ============ */
-        .nav-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-        }
-
-        .tab-btn {
-            background-color: var(--card-bg);
-            border: 2px solid var(--border-color);
-            color: var(--primary-green);
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: clamp(0.85rem, 2vw, 1rem);
-        }
-
-        .tab-btn.active, .tab-btn:hover {
-            background-color: var(--primary-green);
-            color: var(--accent-gold);
-            border-color: var(--primary-green);
-        }
-
-        /* ============ Action Buttons ============ */
-        .action-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: clamp(0.85rem, 2vw, 1rem);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-primary {
-            background-color: var(--primary-green);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: #0d3423;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(31, 78, 61, 0.3);
-        }
-
-        .btn-secondary {
-            background-color: var(--accent-gold);
-            color: var(--text-dark);
-        }
-
-        .btn-secondary:hover {
-            background-color: #c99e27;
-            transform: translateY(-2px);
-        }
-
-        .btn-info {
-            background-color: #0288d1;
-            color: white;
-        }
-
-        .btn-info:hover {
-            background-color: #0277bd;
-        }
-
-        .btn-warning {
-            background-color: #FFA500;
-            color: white;
-        }
-
-        .btn-warning:hover {
-            background-color: #FF8C00;
-        }
-
-        /* ============ Info Cards ============ */
-        .info-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            border: 1px solid var(--border-color);
-        }
-
-        .card-title {
-            font-size: 1.3rem;
-            color: var(--primary-green);
-            border-left: 4px solid var(--accent-gold);
-            padding-left: 10px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* ============ Cost Calculator ============ */
-        .cost-summary {
-            background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-left: 5px solid var(--accent-gold);
-        }
-
-        .cost-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border-color);
-            font-size: clamp(0.9rem, 2vw, 1rem);
-        }
-
-        .cost-row:last-child {
-            border-bottom: none;
-        }
-
-        .cost-row.total {
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: var(--primary-green);
-            background-color: #f0f0f0;
-            padding: 15px 10px;
-            border-radius: 8px;
-            margin-top: 10px;
-        }
-
-        .cost-label {
-            font-weight: 600;
-        }
-
-        .cost-value {
-            color: var(--terracotta);
-            font-weight: 600;
-        }
-
-        /* ============ Weather Widget ============ */
-        .weather-widget {
-            background: linear-gradient(135deg, #87CEEB 0%, #E0F6FF 100%);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid #B0E0E6;
-        }
-
-        .weather-item {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .weather-day {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .weather-day-name {
-            font-weight: bold;
-            color: var(--primary-green);
-            margin-bottom: 8px;
-        }
-
-        .weather-temp {
-            font-size: 1.5rem;
-            color: #FF6B6B;
-            margin: 8px 0;
-        }
-
-        .weather-condition {
-            font-size: 0.9rem;
-            color: var(--text-dark);
-        }
-
-        /* ============ Currency Converter ============ */
-        .converter-container {
-            background: linear-gradient(135deg, #fff9e6 0%, #ffe6cc 100%);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 2px solid var(--accent-gold);
-        }
-
-        .converter-group {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .converter-input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .converter-input-group label {
-            font-weight: 600;
-            color: var(--primary-green);
-            font-size: 0.95rem;
-        }
-
-        .converter-input-group input {
-            padding: 10px;
-            border: 2px solid var(--accent-gold);
-            border-radius: 6px;
-            font-size: 1rem;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .converter-input-group input:focus {
-            outline: none;
-            border-color: var(--primary-green);
-            box-shadow: 0 0 5px rgba(31, 78, 61, 0.3);
-        }
-
-        .exchange-rate-info {
-            text-align: center;
-            padding: 10px;
-            background: white;
-            border-radius: 6px;
-            font-weight: 600;
-            color: var(--terracotta);
-        }
-
-        /* ============ Expense Tracker ============ */
-        .expense-tracker {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border-color);
-        }
-
-        .expense-form {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .form-group label {
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--primary-green);
-        }
-
-        .form-group input,
-        .form-group select {
-            padding: 8px;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 0.9rem;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--primary-green);
-            box-shadow: 0 0 5px rgba(31, 78, 61, 0.2);
-        }
-
-        .expense-list {
-            display: grid;
-            gap: 10px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .expense-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #FAF8F5;
-            padding: 12px;
-            border-radius: 6px;
-            border-left: 4px solid var(--terracotta);
-        }
-
-        .expense-item-info {
-            flex: 1;
-        }
-
-        .expense-item-category {
-            font-weight: 600;
-            color: var(--primary-green);
-            font-size: 0.95rem;
-        }
-
-        .expense-item-description {
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 2px;
-        }
-
-        .expense-item-amount {
-            font-weight: bold;
-            color: var(--terracotta);
-            font-size: 1rem;
-        }
-
-        .expense-item-delete {
-            background: var(--danger-red);
-            color: white;
-            border: none;
-            padding: 6px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            margin-left: 10px;
-            transition: background 0.2s;
-        }
-
-        .expense-item-delete:hover {
-            background: #b71c1c;
-        }
-
-        .expense-summary {
-            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 15px;
-            border-left: 4px solid var(--success-green);
-        }
-
-        .expense-total-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            font-weight: 600;
-        }
-
-        .save-status {
-            text-align: center;
-            padding: 8px 12px;
-            margin-top: 10px;
-            background: #e8f5e9;
-            border-radius: 6px;
-            color: var(--success-green);
-            font-size: 0.9rem;
-            animation: fadeInOut 2s ease-in-out;
-        }
-
-        @keyframes fadeInOut {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-
-        /* ============ Grid Layout ============ */
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .flight-item, .hotel-item {
-            padding: 10px 0;
-            border-bottom: 1px dashed var(--border-color);
-        }
-
-        .flight-item:last-child, .hotel-item:last-child {
-            border-bottom: none;
-        }
-
-        .hotel-name {
-            font-weight: bold;
-            color: var(--terracotta);
-            margin-bottom: 8px;
-        }
-
-        /* ============ Day Sections ============ */
-        .day-section {
-            margin-bottom: 15px;
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            background: white;
-        }
-
-        .day-header {
-            background: #F3EBDD;
-            padding: 15px 20px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: bold;
-            color: var(--terracotta);
-            font-size: clamp(1rem, 3vw, 1.1rem);
-            user-select: none;
-            transition: background 0.2s;
-        }
-
-        .day-header:hover {
-            background: #EAE0CE;
-        }
-
-        .day-content {
-            display: none;
-            padding: 20px;
-            background: white;
-            animation: slideDown 0.3s ease-out;
-        }
-
-        .day-content.active {
-            display: block;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .arrow {
-            transition: transform 0.3s;
-            color: var(--primary-green);
-            font-size: 1.2rem;
-        }
-
-        .arrow.active {
-            transform: rotate(180deg);
-        }
-
-        /* ============ Spot Cards ============ */
-        .spot-card {
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            background: #FAF8F5;
-            transition: box-shadow 0.3s ease;
-        }
-
-        .spot-card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-
-        .spot-card h3 {
-            font-size: clamp(1rem, 3vw, 1.2rem);
-            margin-bottom: 10px;
-        }
-
-        .spot-img {
-            width: 100%;
-            max-height: 220px;
-            object-fit: cover;
-            border-radius: 6px;
-            margin-top: 10px;
-            display: block;
-            loading: lazy;
-        }
-
-        .tag {
-            background-color: var(--accent-gold);
-            color: white;
-            font-size: 0.8rem;
-            padding: 2px 8px;
-            border-radius: 4px;
-            margin-left: 8px;
-        }
-
-        .map-link {
-            display: inline-block;
-            margin-top: 8px;
-            color: var(--primary-green);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: color 0.2s;
-        }
-
-        .map-link:hover {
-            text-decoration: underline;
-            color: var(--terracotta);
-        }
-
-        /* ============ Checklist ============ */
-        .checklist-group {
-            margin-bottom: 20px;
-        }
-
-        .checklist-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .checkbox-label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #FAF8F5;
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            border: 1px solid var(--border-color);
-            transition: all 0.2s;
-            font-size: clamp(0.85rem, 2vw, 0.95rem);
-        }
-
-        .checkbox-label:hover {
-            background: #F3EBDD;
-        }
-
-        .checkbox-label input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--primary-green);
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-
-        .checkbox-label input[type="checkbox"]:checked + span {
-            text-decoration: line-through;
-            opacity: 0.6;
-        }
-
-        /* ============ Reminder Box ============ */
-        .reminder-box {
-            background: #FDF3E7;
-            border: 1px solid #E2C08D;
-            border-radius: 8px;
-            padding: 15px 20px;
-            margin-top: 20px;
-        }
-
-        .reminder-box h3 {
-            color: var(--terracotta);
-            margin-bottom: 12px;
-        }
-
-        .reminder-box ul {
-            padding-left: 20px;
-            margin-top: 8px;
-        }
-
-        .reminder-box li {
-            margin-bottom: 8px;
-            color: var(--text-dark);
-        }
-
-        /* ============ Page Sections ============ */
-        .page-section {
-            display: none;
-            animation: fadeIn 0.4s ease-in;
-        }
-
-        .page-section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        /* ============ Print Styles ============ */
-        @media print {
-            body {
-                background-color: white;
-                padding-bottom: 0;
-            }
-
-            .nav-tabs, .action-buttons, .map-link, .btn, .expense-tracker, .converter-container, .save-status {
-                display: none;
-            }
-
-            .info-card, .day-section, .spot-card {
-                box-shadow: none;
-                page-break-inside: avoid;
-                border: 1px solid #ddd;
-            }
-
-            .header {
-                border-bottom: 3px solid #000;
-            }
-
-            .day-content {
-                display: block !important;
-            }
-
-            .day-header {
-                background: #f0f0f0;
-                border-bottom: 1px solid #ddd;
-                cursor: default;
-            }
-
-            .arrow {
-                display: none;
-            }
-        }
-
-        /* ============ Mobile Responsive ============ */
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.5rem;
-            }
-
-            .header p {
-                font-size: 0.9rem;
-            }
-
-            .container {
-                padding: 0 10px;
-            }
-
-            .nav-tabs {
-                gap: 8px;
-            }
-
-            .tab-btn {
-                padding: 8px 12px;
-                font-size: 0.8rem;
-            }
-
-            .card-title {
-                font-size: 1.1rem;
-            }
-
-            .checklist-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .cost-row {
-                flex-direction: column;
-                gap: 5px;
-            }
-
-            .weather-item {
-                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            }
-
-            .action-buttons {
-                gap: 8px;
-            }
-
-            .btn {
-                padding: 8px 12px;
-                font-size: 0.8rem;
-            }
-
-            .expense-form {
-                grid-template-columns: 1fr;
-            }
-
-            .converter-group {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header {
-                padding: 25px 15px 20px;
-            }
-
-            .header h1 {
-                font-size: 1.2rem;
-                letter-spacing: 1px;
-            }
-
-            .container {
-                margin: 15px auto;
-            }
-
-            .nav-tabs {
-                gap: 5px;
-            }
-
-            .tab-btn {
-                padding: 6px 10px;
-                font-size: 0.75rem;
-            }
-
-            .card-title {
-                font-size: 1rem;
-                padding-left: 8px;
-            }
-
-            .cost-summary, .weather-widget, .converter-container {
-                padding: 15px;
-            }
-
-            .spot-img {
-                max-height: 180px;
-            }
-        }
-
-        .hidden {
-            display: none;
-        }
-    </style>
+    /* 滑動刪除動畫支援 */
+    .swipe-item {
+      transition: transform 0.2s ease-out;
+      touch-action: pan-y;
+    }
+
+    /* 長輩模式 Override */
+    body.elder-mode {
+      font-size: 1.25rem !important;
+    }
+    body.elder-mode .text-xs { font-size: 0.95rem !important; }
+    body.elder-mode .text-sm { font-size: 1.1rem !important; }
+    body.elder-mode .text-base { font-size: 1.3rem !important; }
+    body.elder-mode .text-lg { font-size: 1.5rem !important; }
+    body.elder-mode button, body.elder-mode input {
+      padding-top: 0.75rem !important;
+      padding-bottom: 0.75rem !important;
+    }
+
+    /* 個資隱私隱藏 */
+    .privacy-masked {
+      filter: blur(5px);
+      user-select: none;
+      transition: filter 0.3s;
+    }
+  </style>
 </head>
-<body>
+<body class="bg-thai-cream text-gray-800 font-sans pb-24 h-full flex flex-col antialiased">
 
-    <!-- Header Banner -->
-    <header class="header">
-        <h1>🇹🇭 清邁 5 天 4 夜泰式漫遊行</h1>
-        <p>2026 / 07 / 27 (一) － 07 / 31 (五)</p>
-    </header>
+  <!-- 頂部 Header -->
+  <header class="bg-thai-green text-thai-cream sticky top-0 z-40 shadow-md">
+    <div class="max-w-md mx-auto px-4 py-3 flex justify-between items-center">
+      <div>
+        <h1 class="font-serif text-xl font-bold tracking-wider text-thai-gold flex items-center gap-2">
+          <i class="fa-solid font-normal fa-synagogue"></i> 清邁五日遊
+        </h1>
+        <p class="text-xs text-gray-300">2026/07/27 - 07/31 輕旅指南</p>
+      </div>
+      <div class="flex items-center space-x-2">
+        <!-- 隱私開關 -->
+        <button id="privacyBtn" onclick="togglePrivacy()" class="w-9 h-9 rounded-full bg-thai-leaf/50 text-thai-cream flex items-center justify-center text-sm" title="切換個資隱私">
+          <i class="fa-solid fa-eye" id="privacyIcon"></i>
+        </button>
+        <!-- 老人/模式切換 -->
+        <button id="elderBtn" onclick="toggleElderMode()" class="px-2.5 py-1 rounded-full bg-thai-gold text-thai-green font-bold text-xs shadow" title="切換模式">
+          標準
+        </button>
+      </div>
+    </div>
+  </header>
 
-    <div class="container">
-        <!-- 頁籤選單 -->
-        <nav class="nav-tabs">
-            <button class="tab-btn active" onclick="switchPage('itinerary')">📅 每日行程</button>
-            <button class="tab-btn" onclick="switchPage('info')">✈️ 航班 & 住宿</button>
-            <button class="tab-btn" onclick="switchPage('tools')">💱 匯率 & 記帳</button>
-            <button class="tab-btn" onclick="switchPage('checklist')">🧳 必備清單</button>
-            <button class="tab-btn" onclick="switchPage('tips')">ℹ️ 小叮嚀</button>
-        </nav>
+  <!-- 主內容分頁區域 (Max-width 限制為 Mobile-first 風格) -->
+  <main class="max-w-md mx-auto w-full flex-1 px-4 pt-4">
 
-        <!-- Action Buttons -->
-        <div class="action-buttons">
-            <button class="btn btn-primary" onclick="downloadPDF()">📥 下載 PDF</button>
-            <button class="btn btn-secondary" onclick="printPage()">🖨️ 列印</button>
-            <button class="btn btn-info" onclick="loadWeather()">🌤️ 天氣預報</button>
-            <button class="btn btn-warning" onclick="clearAllData()">🔄 清空所有紀錄</button>
+    <!-- 1. PLAN 行程頁面 -->
+    <section id="tab-plan" class="tab-content space-y-4">
+      
+      <!-- 交通與接送卡片 -->
+      <div class="bg-thai-card rounded-2xl p-4 shadow-sm border border-thai-sand">
+        <h2 class="text-thai-green font-bold text-lg mb-3 flex items-center gap-2">
+          <i class="fa-solid fa-plane-departure text-thai-gold"></i> 交通與專車接送
+        </h2>
+
+        <!-- 航班資訊 -->
+        <div class="bg-thai-cream/60 rounded-xl p-3 mb-3 text-sm">
+          <div class="flex justify-between font-bold text-thai-green border-b border-gray-200 pb-2 mb-2">
+            <span><i class="fa-solid fa-plane"></i> 去程：CI851</span>
+            <span class="text-xs bg-thai-green text-white px-2 py-0.5 rounded">07/27</span>
+          </div>
+          <p class="text-xs text-gray-600 mb-1">07:30 台北 TPE ➔ 10:20 清邁 CNX</p>
+          <div class="flex justify-between font-bold text-thai-green border-b border-gray-200 pb-2 my-2">
+            <span><i class="fa-solid fa-plane fa-flip-horizontal"></i> 回程：CI852</span>
+            <span class="text-xs bg-thai-green text-white px-2 py-0.5 rounded">07/31</span>
+          </div>
+          <p class="text-xs text-gray-600">11:20 清邁 CNX ➔ 16:00 台北 TPE</p>
+          <div class="mt-2 text-xs text-gray-500 bg-white p-2 rounded border border-gray-100">
+            <strong>備註費率：</strong><br>
+            經濟艙來回：$18,204 /人<br>
+            去程經濟/回程商務：$22,948 /人<br>
+            保險：$1,676 /人｜網卡：$185 /人
+          </div>
         </div>
 
-        <!-- 1. 每日行程頁面 -->
-        <section id="itinerary" class="page-section active">
-            
-            <!-- Day 1 -->
-            <div class="day-section">
-                <div class="day-header" onclick="toggleDay('day1')">
-                    <span>Day 1 | 07/27 (一) 抵達清邁 & 泰料理體驗</span>
-                    <span class="arrow active" id="arrow-day1">▼</span>
-                </div>
-                <div class="day-content active" id="day1">
-                    <div class="spot-card">
-                        <h3>✈️ 抵達清邁國際機場 (CNX) <span class="tag">10:20</span></h3>
-                        <p style="margin-top:5px;">班機 CI851 抵達，辦理入境手續、搭車前往阿基拉塔佩飯店寄放行李（預計 12:00 抵達）。</p>
-                        <a class="map-link" href="https://maps.google.com/?q=Chiang+Mai+International+Airport" target="_blank">📍 查看 Google 地圖連結</a>
-                    </div>
+        <!-- 機場接送細節 -->
+        <div class="space-y-2 text-xs">
+          <div class="border-l-4 border-thai-gold pl-3 py-1 bg-white rounded-r">
+            <span class="font-bold text-gray-800">去程接送 - 新竹 (5人)</span>
+            <p class="text-gray-600">時間：07/27 04:00｜費用：$1,900</p>
+          </div>
+          <div class="border-l-4 border-thai-gold pl-3 py-1 bg-white rounded-r">
+            <span class="font-bold text-gray-800">去程接送 - 林口 (1人)</span>
+            <p class="text-gray-600">時間：07/27 04:30｜費用：$600</p>
+          </div>
+          <div class="border-l-4 border-thai-green pl-3 py-1 bg-white rounded-r">
+            <span class="font-bold text-gray-800">回程接送 - 新竹 (5人)</span>
+            <p class="text-gray-600">時間：07/31 依入境時間聯絡司機｜費用：$1,900</p>
+            <p class="text-thai-accent text-[11px] mt-0.5">※ 落地提完行李後請自行電話聯絡司機</p>
+          </div>
+        </div>
+      </div>
 
-                    <div class="spot-card">
-                        <h3>🍳 祖母廚房 Grandma's Home Cooking School <span class="tag">15:20 - 19:00</span></h3>
-                        <p style="margin-top:5px;"><b>費用：</b>$855 / 人</p>
-                        <p><b>內容：</b>飯店大廳專車接駁、傳統市場導覽、親手做 5 道泰菜與芒果糯米飯。</p>
-                        <img class="spot-img" src="https://images.unsplash.com/photo-1559847844-5315695dadae?auto=format&fit=crop&w=800&q=80" alt="泰式料理體驗">
-                        <br>
-                        <a class="map-link" href="https://maps.google.com/?q=Grandma's+Home+Cooking+School+Chiang+Mai" target="_blank">📍 查看 Google 地圖連結</a>
-                    </div>
-
-                    <div class="spot-card">
-                        <h3>🏨 阿基拉塔佩飯店 Check-in <span class="tag">15:00 後</span></h3>
-                        <p>入住休息，享受清邁古城區氛圍。</p>
-                    </div>
-                </div>
+      <!-- 飯店資訊 -->
+      <div class="bg-thai-card rounded-2xl p-4 shadow-sm border border-thai-sand">
+        <h2 class="text-thai-green font-bold text-lg mb-3 flex items-center gap-2">
+          <i class="fa-solid fa-hotel text-thai-gold"></i> 住宿飯店資訊
+        </h2>
+        
+        <div class="space-y-4">
+          <!-- 飯店 1 -->
+          <div class="border border-gray-100 rounded-xl p-3 bg-thai-cream/30">
+            <div class="flex justify-between items-start">
+              <div>
+                <span class="text-xs bg-thai-gold/20 text-thai-gold font-bold px-2 py-0.5 rounded">07/27 - 07/29 (2晚)</span>
+                <h3 class="font-bold text-gray-800 mt-1">阿基拉塔佩飯店</h3>
+                <p class="text-xs text-gray-500">Akira Thaphae Hotel โรงแรมอาคิรา ท่าแพ</p>
+              </div>
+              <a href="https://maps.app.goo.gl/n1uugu3ECD6roM3G7?g_st=ic" target="_blank" class="bg-thai-green text-white text-xs px-2.5 py-1.5 rounded-lg flex items-center gap-1 shadow-sm">
+                <i class="fa-solid fa-map-location-dot"></i> 地圖
+              </a>
             </div>
-
-            <!-- Day 2 -->
-            <div class="day-section">
-                <div class="day-header" onclick="toggleDay('day2')">
-                    <span>Day 2 | 07/28 (二) 清萊經典一日遊</span>
-                    <span class="arrow" id="arrow-day2">▼</span>
-                </div>
-                <div class="day-content" id="day2">
-                    <div class="spot-card">
-                        <h3>🚌 清萊經典一日遊 (黑白藍廟+長頸村) <span class="tag">09:00 - 17:00</span></h3>
-                        <p style="margin-top:5px;"><b>費用：</b>$1,270 / 人</p>
-                        <p><b>內容：</b>飯店大廳接駁，含溫泉泡腳煮蛋、白廟、黑屋、藍廟、長頸村探訪。</p>
-                        <img class="spot-img" src="https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=800&q=80" alt="清萊白廟">
-                        <br>
-                        <a class="map-link" href="https://maps.google.com/?q=Wat+Rong+Khun+Chiang+Rai" target="_blank">📍 查看白廟 Google 地圖</a>
-                    </div>
-
-                    <div class="spot-card">
-                        <h3>🌙 晚間自由活動 <span class="tag">自由時間</span></h3>
-                        <p>一日遊結束返回飯店後，可自由逛清邁夜市、享用泰式宵夜或按摩。</p>
-                    </div>
-                </div>
+            <div class="text-xs text-gray-600 mt-2 space-y-1">
+              <p class="privacy-target"><strong>英文：</strong>Thaphae, Chang Moi, Chiang Mai Province, 50100</p>
+              <p class="privacy-target"><strong>泰文：</strong>7 ซ.4 ถ.ท่าแพ, ต.ช้างคลาน, ตำบลช้างม่อย, จังหวัดเชียงใหม่, 50100</p>
+              <p class="privacy-target"><strong>電話：</strong>+66 52 001 236 / +66 52 001 237</p>
+              <p><strong>時間：</strong>入住 14:00 / 退房 12:00前</p>
+              <p><strong>早餐：</strong>週一~五 07:00-10:00 (週末關閉)</p>
+              <p class="text-red-500 font-medium">🚫 飯店免押金，嚴禁攜帶榴槤、山竹入內</p>
             </div>
+          </div>
 
-            <!-- Day 3 -->
-            <div class="day-section">
-                <div class="day-header" onclick="toggleDay('day3')">
-                    <span>Day 3 | 07/29 (三) 大象保護區 + 夜間野生動物園</span>
-                    <span class="arrow" id="arrow-day3">▼</span>
-                </div>
-                <div class="day-content" id="day3">
-                    <div class="spot-card">
-                        <h3>🧳 飯店退房與寄放行李 <span class="tag">11:30</span></h3>
-                        <p>從阿基拉塔佩飯店退房，前往「那皮亞丁精品飯店」先寄放行李。</p>
-                    </div>
-
-                    <div class="spot-card">
-                        <h3>🐘 大象互動半日遊 + 夜間野生動物園 <span class="tag">13:00 - 20:30</span></h3>
-                        <p style="margin-top:5px;"><b>費用：</b>$1,898 / 人</p>
-                        <p><b>內容：</b>蘭納大象保護區（手作大象食物、餵食、陪洗澡）+ 夜間野生動物園 (Night Safari)。</p>
-                        <img class="spot-img" src="https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=800&q=80" alt="大象互動體驗">
-                        <br>
-                        <a class="map-link" href="https://maps.google.com/?q=Chiang+Mai+Night+Safari" target="_blank">📍 查看夜間野生動物園地圖</a>
-                    </div>
-                </div>
+          <!-- 飯店 2 -->
+          <div class="border border-gray-100 rounded-xl p-3 bg-thai-cream/30">
+            <div class="flex justify-between items-start">
+              <div>
+                <span class="text-xs bg-thai-gold/20 text-thai-gold font-bold px-2 py-0.5 rounded">07/29 - 07/31 (2晚)</span>
+                <h3 class="font-bold text-gray-800 mt-1">那皮亞丁精品飯店</h3>
+                <p class="text-xs text-gray-500">Nampiangdin Boutique Hotel น้ำเพียงดิน บูติค โฮเทล</p>
+              </div>
+              <a href="https://maps.app.goo.gl/EZeeKqaLUmzax9vF7?g_st=ic" target="_blank" class="bg-thai-green text-white text-xs px-2.5 py-1.5 rounded-lg flex items-center gap-1 shadow-sm">
+                <i class="fa-solid fa-map-location-dot"></i> 地圖
+              </a>
             </div>
-
-            <!-- Day 4 -->
-            <div class="day-section">
-                <div class="day-header" onclick="toggleDay('day4')">
-                    <span>Day 4 | 07/30 (四) 清邁古城自由探索日</span>
-                    <span class="arrow" id="arrow-day4">▼</span>
-                </div>
-                <div class="day-content" id="day4">
-                    <div class="spot-card">
-                        <h3>🌿 愜意自由活動日 <span class="tag">全天自由</span></h3>
-                        <p><b>建議行程：</b>造訪尼曼路文青商圈、古城柴迪隆寺漫步、體驗泰式貴婦 SPA、高評價 Cafe 打卡。</p>
-                        <img class="spot-img" src="https://images.unsplash.com/photo-1508009603885-50cf7c579365?auto=format&fit=crop&w=800&q=80" alt="清邁漫遊">
-                        <br>
-                        <a class="map-link" href="https://maps.google.com/?q=Wat+Chedi+Luang+Chiang+Mai" target="_blank">📍 查看柴迪隆寺地圖</a>
-                    </div>
-                </div>
+            <div class="text-xs text-gray-600 mt-2 space-y-1">
+              <p class="privacy-target"><strong>英文：</strong>14/3 Nantaram 5 Kor Alley, Tambon Hai Ya, Haiya, Chiang Mai</p>
+              <p class="privacy-target"><strong>泰文：</strong>14/3 ซ.นันทาราม 5 ก, ต.หายยา, ตำบลหายยา, จังหวัดเชียงใหม่</p>
+              <p class="privacy-target"><strong>電話：</strong>+66 053 275 513 / +66 882 593 513</p>
+              <p><strong>時間：</strong>入住 14:00 / 退房 12:00前</p>
+              <p><strong>早餐：</strong>每日 07:00-10:00</p>
+              <p><strong>費用：</strong>$5,400 (4晚 / 人總計)</p>
+              <p class="text-red-500 font-medium">🚫 飯店免押金，嚴禁攜帶榴槤、山竹入內</p>
             </div>
+          </div>
+        </div>
+      </div>
 
-            <!-- Day 5 -->
-            <div class="day-section">
-                <div class="day-header" onclick="toggleDay('day5')">
-                    <span>Day 5 | 07/31 (五) 滿載而歸 返家</span>
-                    <span class="arrow" id="arrow-day5">▼</span>
-                </div>
-                <div class="day-content" id="day5">
-                    <div class="spot-card">
-                        <h3>🚕 退房與前往機場 <span class="tag">08:30</span></h3>
-                        <p>辦理那皮亞丁精品飯店退房，前往清邁國際機場準備辦理登機。</p>
-                    </div>
+      <!-- 每日行程時間軸 Tabs -->
+      <div class="bg-thai-card rounded-2xl p-4 shadow-sm border border-thai-sand">
+        <h2 class="text-thai-green font-bold text-lg mb-3 flex items-center gap-2">
+          <i class="fa-regular fa-calendar-days text-thai-gold"></i> 每日行程規劃
+        </h2>
 
-                    <div class="spot-card">
-                        <h3>✈️ 搭乘華航 CI852 返台 <span class="tag">11:20 - 16:00</span></h3>
-                        <p>11:20 清邁 CNX 起飛，16:00 抵達台北 TPE，順利結束精彩的泰國之旅！</p>
-                    </div>
-                </div>
+        <!-- 日期選擇按鈕 -->
+        <div class="flex space-x-2 overflow-x-auto no-scrollbar pb-2 mb-3">
+          <button onclick="switchDay(1)" id="dayBtn-1" class="day-btn px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap bg-thai-green text-white">Day 1 (07/27)</button>
+          <button onclick="switchDay(2)" id="dayBtn-2" class="day-btn px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap bg-gray-100 text-gray-600">Day 2 (07/28)</button>
+          <button onclick="switchDay(3)" id="dayBtn-3" class="day-btn px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap bg-gray-100 text-gray-600">Day 3 (07/29)</button>
+          <button onclick="switchDay(4)" id="dayBtn-4" class="day-btn px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap bg-gray-100 text-gray-600">Day 4 (07/30)</button>
+          <button onclick="switchDay(5)" id="dayBtn-5" class="day-btn px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap bg-gray-100 text-gray-600">Day 5 (07/31)</button>
+        </div>
+
+        <!-- 每日內容動態切換容器 -->
+        <div id="dayContentArea" class="relative pl-4 border-l-2 border-thai-gold/40 space-y-4">
+          <!-- JS 自動動態渲染 -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. GUIDE 深度導覽頁面 -->
+    <section id="tab-guide" class="tab-content hidden space-y-4">
+      <div class="bg-thai-card rounded-2xl p-4 shadow-sm border border-thai-sand">
+        <h2 class="text-thai-green font-bold text-lg mb-1">泰北景點故事與雜誌導覽</h2>
+        <p class="text-xs text-gray-500 mb-4">深刻感受清邁與清萊的歷史脈絡與冷知識</p>
+
+        <!-- OpenStreetMap 互動地圖 -->
+        <div class="w-full h-48 rounded-xl overflow-hidden border border-thai-sand shadow-inner mb-4">
+          <iframe title="Chiang Mai Map" class="w-full h-full" src="https://www.openstreetmap.org/export/embed.html?bbox=98.9000%2C18.7500%2C99.0500%2C18.8200&amp;layer=mapnik"></iframe>
+        </div>
+
+        <div class="space-y-6">
+          <!-- 景點 1 -->
+          <article class="space-y-2 border-b border-gray-100 pb-4">
+            <span class="text-xs font-bold text-thai-gold tracking-widest uppercase">Chiang Rai Highlight</span>
+            <h3 class="font-serif text-lg font-bold text-thai-green">清萊白廟 Wat Rong Khun (วัดร่องขุ่น)</h3>
+            <p class="text-xs text-gray-600 leading-relaxed">
+              白廟由泰國知名藝術家 Chalermchai Kositpipat 自費於1997年建造。全廟以純白塑飾與鏡面碎片構築，象徵佛陀的純潔與智慧照耀宇宙。過橋前會經過無數張向天空掙扎的「地獄之手」，冷知識：通往主殿的橋只能單向往前走，象徵從地獄走過奈何橋邁向天堂，絕不可回頭！
+            </p>
+          </article>
+
+          <!-- 景點 2 -->
+          <article class="space-y-2 border-b border-gray-100 pb-4">
+            <span class="text-xs font-bold text-thai-gold tracking-widest uppercase">Culture & Nature</span>
+            <h3 class="font-serif text-lg font-bold text-thai-green">蘭納大象保護區 & 夜間野生動物園</h3>
+            <p class="text-xs text-gray-600 leading-relaxed">
+              在清邁，友善大象體驗已取代傳統騎象。旅人會親手為大象調配草藥營養飯糰並下水替牠們刷洗身體。傍晚接續前往「清邁夜間野生動物園 (Chiang Mai Night Safari)」，這是亞洲僅有的兩座夜間動物園之一，可乘坐開放式遊園車近距離觀察草食與肉食動物在夜晚的自然生態。
+            </p>
+          </article>
+
+          <!-- 景點 3 -->
+          <article class="space-y-2">
+            <span class="text-xs font-bold text-thai-gold tracking-widest uppercase">Culinary Class</span>
+            <h3 class="font-serif text-lg font-bold text-thai-green">奶奶的廚房 Grandma's Cooking School</h3>
+            <p class="text-xs text-gray-600 leading-relaxed">
+              這不僅是烹飪課，更是一場泰式辛香料探秘。活動從漫步傳統菜市場開始，導覽員會親自示範如何挑選椰奶、南薑、香茅與檸檬葉。隨後在有機農場風格的木屋廚房中，親手打造專屬的泰式炒河粉與冬蔭功湯！
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. WALLET 記帳與匯率頁面 -->
+    <section id="tab-wallet" class="tab-content hidden space-y-4">
+      
+      <!-- 匯率計算機 -->
+      <div class="bg-thai-card rounded-2xl p-4 shadow-sm border border-thai-sand">
+        <h2 class="text-thai-green font-bold text-base mb-3 flex items-center gap-2">
+          <i class="fa-solid fa-calculator text-thai-gold"></i> 即時泰銖/台幣換算
+        </h2>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="bg-thai-cream/50 p-2.5 rounded-xl">
+            <label class="text-[10px] text-gray-500 font-bold block mb-1">泰銖 THB</label>
+            <input type="number" id="thbInput" value="100" oninput="calcExchange('thb')" class="w-full bg-white border border-gray-200 rounded-lg px-2 py-1.5 text-base font-bold text-thai-green focus:outline-none focus:border-thai-gold">
+          </div>
+          <div class="bg-thai-cream/50 p-2.5 rounded-xl">
+            <label class="text-[10px] text-gray-500 font-bold block mb-1">約合台幣 TWD (匯率: <span id="rateLabel">0.92</span>)</label>
+            <input type="number" id="twdInput" value="92" oninput="calcExchange('twd')" class="w-full bg-white border border-gray-200 rounded-lg px-2 py-1.5 text-base font-bold text-thai-green focus:outline-none focus:border-thai-gold">
+          </div>
+        </div>
+        <div class="mt-2 text-right">
+          <button onclick="setRatePrompt()" class="text-[11px] text-thai-gold underline font-bold">手動自訂匯率</button>
+        </div>
+      </div>
+
+      <!-- 新增記帳表單 -->
+      <div class="bg-thai-card rounded-2xl p-4 shadow-sm border border-thai-sand">
+        <h2 class="text-thai-green font-bold text-base mb-3 flex items-center gap-2">
+          <i class="fa-solid fa-receipt text-thai-gold"></i> 新增旅遊花費
+        </h2>
+        <form id="walletForm" onsubmit="addExpense(event)" class="space-y-3">
+          <div>
+            <input type="text" id="expItem" placeholder="品項名稱 (例：Khao Soi 咖哩麵)" required class="w-full border border-gray-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-thai-green">
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <input type="number" id="expAmount" placeholder="泰銖金額 (THB)" required class="border border-gray-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-thai-green">
+            <select id="expPayer" class="border border-gray-200 rounded-xl px-2 py-2 text-xs bg-white focus:outline-none">
+              <option value="自行支付">誰付款：自行支付</option>
+              <option value="公金支付">公金支付</option>
+              <option value="成員代墊">成員代墊</option>
+            </select>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <select id="expPayMethod" class="border border-gray-200 rounded-xl px-2 py-2 text-xs bg-white focus:outline-none">
+              <option value="現金">付款方式：現金</option>
+              <option value="信用卡">信用卡</option>
+            </select>
+            <input type="text" id="expTarget" placeholder="給誰錢/備註" class="border border-gray-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-thai-green">
+          </div>
+          
+          <!-- 拍照/照片 Canvas 壓縮 -->
+          <div class="flex items-center space-x-2">
+            <label class="flex-1 border border-dashed border-gray-300 rounded-xl py-2 px-3 text-center text-xs text-gray-500 cursor-pointer bg-thai-cream/30 hover:bg-thai-cream">
+              <i class="fa-solid fa-camera mr-1"></i> 上傳收據/照片
+              <input type="file" accept="image/*" id="expImgInput" onchange="handleImageUpload(this)" class="hidden">
+            </label>
+            <div id="imgPreviewArea" class="w-10 h-10 rounded-lg border border-gray-200 hidden bg-cover bg-center"></div>
+          </div>
+
+          <button type="submit" class="w-full bg-thai-green text-white font-bold py-2.5 rounded-xl text-xs shadow-md hover:bg-thai-leaf transition">
+            儲存記帳紀錄
+          </button>
+        </form>
+      </div>
+
+      <!-- 記帳歷史列表 -->
+      <div class="bg-thai-card rounded-2xl p-4 shadow-sm border border-thai-sand">
+        <div class="flex justify-between items-center mb-3">
+          <h2 class="text-thai-green font-bold text-base">消費歷史明細</h2>
+          <span id="totalExpenseLabel" class="text-xs font-bold text-thai-accent">總計: 0 THB</span>
+        </div>
+        <div id="expenseList" class="space-y-2 text-xs">
+          <!-- JS 動態寫入 -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. LISTS 清單頁面 -->
+    <section id="tab-lists" class="tab-content hidden space-y-4">
+      
+      <!-- 行前 Checklist -->
+      <div class="bg-thai-card rounded-2xl p-4 shadow-sm border border-thai-sand">
+        <h2 class="text-thai-green font-bold text-base mb-3 flex items-center gap-2">
+          <i class="fa-solid fa-clipboard-check text-thai-gold"></i> 行前準備與必備 CheckList
+        </h2>
+
+        <div class="space-y-2 text-xs" id="checklistContainer">
+          <!-- JS 自動渲染可打勾清單 -->
+        </div>
+      </div>
+
+      <!-- 個人備忘錄 (支援超連結自動轉換) -->
+      <div class="bg-thai-card rounded-2xl p-4 shadow-sm border border-thai-sand">
+        <h2 class="text-thai-green font-bold text-base mb-2 flex items-center gap-2">
+          <i class="fa-solid fa-note-sticky text-thai-gold"></i> 個人備忘錄
+        </h2>
+        <p class="text-[11px] text-gray-400 mb-2">輸入任何文字或網址（網址會自動轉為按鈕）</p>
+        <textarea id="personalNote" oninput="savePersonalNote()" rows="4" class="w-full border border-gray-200 rounded-xl p-3 text-xs focus:outline-none focus:border-thai-green bg-thai-cream/20" placeholder="在此輸入個人備註、飯店預訂號碼、重要連結..."></textarea>
+        <div id="noteLinkArea" class="mt-2 flex flex-wrap gap-2"></div>
+      </div>
+
+      <!-- 出行注意事項 -->
+      <div class="bg-thai-cream/80 border border-thai-gold/30 rounded-2xl p-4 shadow-sm text-xs space-y-2">
+        <h3 class="font-bold text-thai-green flex items-center gap-1">
+          <i class="fa-solid fa-triangle-exclamation text-thai-accent"></i> 泰國旅遊注意事項與小叮嚀
+        </h3>
+        <ul class="list-disc list-inside text-gray-600 space-y-1">
+          <li><strong>寺廟穿著：</strong> 進入廟宇不可穿著短褲、無袖背心或露肩衣物。</li>
+          <li><strong>氣候備品：</strong> 7月正值清邁雨季，請務必隨身攜帶雨傘、雨衣與防蚊液。</li>
+          <li><strong>大象行程：</strong> 建議多攜帶一套替換衣物（含內衣褲）與小毛巾。</li>
+          <li><strong>入境現金規章：</strong> 入境泰國每人需攜帶同等值不少於 20,000 泰銖之現金。</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 5. EXPLORE 願望探店與伴手禮頁面 -->
+    <section id="tab-explore" class="tab-content hidden space-y-4">
+      
+      <!-- 願望探店分類卡片 -->
+      <div class="bg-thai-card rounded-2xl p-4 shadow-sm border border-thai-sand">
+        <div class="flex justify-between items-center mb-3">
+          <h2 class="text-thai-green font-bold text-base flex items-center gap-2">
+            <i class="fa-solid fa-utensils text-thai-gold"></i> 願望探店清單
+          </h2>
+          <button onclick="openAddSpotModal('spot')" class="bg-thai-green text-white text-xs px-2.5 py-1.5 rounded-lg shadow-sm">
+            <i class="fa-solid fa-plus"></i> 新增店家
+          </button>
+        </div>
+        <p class="text-[10px] text-gray-400 mb-3">💡 小撇步：由右向左滑動項目可刪除，長按可拖移排序</p>
+
+        <!-- 探店動態列表 (Sortable Container) -->
+        <div id="spotsContainer" class="space-y-3">
+          <!-- JS 動態寫入 -->
+        </div>
+      </div>
+
+      <!-- 願望伴手禮卡片 -->
+      <div class="bg-thai-card rounded-2xl p-4 shadow-sm border border-thai-sand">
+        <div class="flex justify-between items-center mb-3">
+          <h2 class="text-thai-green font-bold text-base flex items-center gap-2">
+            <i class="fa-solid fa-bag-shopping text-thai-gold"></i> 願望伴手禮
+          </h2>
+          <button onclick="openAddSpotModal('souvenir')" class="bg-thai-green text-white text-xs px-2.5 py-1.5 rounded-lg shadow-sm">
+            <i class="fa-solid fa-plus"></i> 新增品項
+          </button>
+        </div>
+
+        <div id="souvenirContainer" class="space-y-3">
+          <!-- JS 動態寫入 -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. INFO 資訊與緊急聯絡頁面 -->
+    <section id="tab-info" class="tab-content hidden space-y-4">
+      <div class="bg-thai-card rounded-2xl p-4 shadow-sm border border-thai-sand">
+        <h2 class="text-thai-green font-bold text-base mb-3 flex items-center gap-2">
+          <i class="fa-solid fa-circle-info text-thai-gold"></i> 實用資訊與緊急聯絡
+        </h2>
+
+        <!-- 天氣預報按鈕 -->
+        <a href="https://www.google.com/search?q=chiang+mai+weather" target="_blank" class="block w-full bg-thai-cream p-3 rounded-xl border border-thai-sand flex justify-between items-center mb-4">
+          <div class="flex items-center space-x-3">
+            <i class="fa-solid fa-cloud-sun-rain text-thai-accent text-xl"></i>
+            <div>
+              <p class="font-bold text-xs text-gray-800">清邁即時天氣預報</p>
+              <p class="text-[10px] text-gray-500">點擊查看 7 天氣象趨勢</p>
             </div>
+          </div>
+          <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+        </a>
 
-        </section>
-
-        <!-- 2. 航班與住宿頁面 -->
-        <section id="info" class="page-section">
-            <!-- Weather Widget -->
-            <div class="info-card">
-                <div class="card-title">🌤️ 天氣預報</div>
-                <div class="weather-widget" id="weather-container">
-                    <p style="text-align: center; color: #666;">點擊上方「天氣預報」按鈕查看最新天氣資訊...</p>
-                    <div class="weather-item" id="weather-data" style="display: none;">
-                        <!-- 由 JavaScript 動態插入 -->
-                    </div>
-                </div>
+        <!-- 緊急電話列表 -->
+        <div class="space-y-2 text-xs">
+          <div class="p-2.5 bg-red-50 border border-red-100 rounded-xl flex justify-between items-center">
+            <div>
+              <p class="font-bold text-red-800">觀光警察求助熱線</p>
+              <p class="text-[10px] text-red-600">提供英語與中文服務</p>
             </div>
+            <a href="tel:1155" class="bg-red-600 text-white font-bold px-3 py-1.5 rounded-lg text-xs">1155</a>
+          </div>
 
-            <!-- Flights & Hotels -->
-            <div class="grid-2">
-                <div class="info-card">
-                    <div class="card-title">✈️ 航班訊息</div>
-                    <div class="flight-item">
-                        <p><b>去程：</b>中華航空 CI851</p>
-                        <p>07:30 台北 TPE → 10:20 清邁 CNX</p>
-                    </div>
-                    <div class="flight-item">
-                        <p><b>回程：</b>中華航空 CI852</p>
-                        <p>11:20 清邁 CNX → 16:00 台北 TPE</p>
-                    </div>
-                </div>
-
-                <div class="info-card">
-                    <div class="card-title">🏨 住宿訊息</div>
-                    <div class="hotel-item">
-                        <div class="hotel-name">阿基拉塔佩飯店 (Akira Thaphae Hotel)</div>
-                        <p>📅 07/27 (一) － 07/29 (三)，共 2 晚</p>
-                        <p>📍 7 ซ.4 ถ.ท่าแพ, ต.ช้างคลาน, ตำบลช้างม่อย, Chiang Mai</p>
-                        <p>📞 +66 52 001 236</p>
-                        <p>💡 07/27 12:00 可先寄放行李；15:00 Check-in</p>
-                        <a class="map-link" href="https://maps.google.com/?q=Akira+Thaphae+Hotel" target="_blank">📍 查看地圖</a>
-                    </div>
-                    <div class="hotel-item">
-                        <div class="hotel-name">那皮亞丁精品飯店 (Nampiangdin Boutique Hotel)</div>
-                        <p>📅 07/29 (三) － 07/31 (五)，共 2 晚</p>
-                        <p>📍 14/3 ซ.นันทาราม 5 ก, ต.หายยา, Chiang Mai</p>
-                        <p>📞 +66 053 275 513</p>
-                        <p>💡 07/29 11:30 可先寄放行李</p>
-                        <a class="map-link" href="https://maps.google.com/?q=Nampiangdin+Boutique+Hotel" target="_blank">📍 查看地圖</a>
-                    </div>
-                </div>
+          <div class="p-2.5 bg-gray-50 border border-gray-200 rounded-xl flex justify-between items-center">
+            <div>
+              <p class="font-bold text-gray-800">泰國緊急救護車</p>
             </div>
-        </section>
+            <a href="tel:1669" class="bg-thai-green text-white font-bold px-3 py-1.5 rounded-lg text-xs">1669</a>
+          </div>
 
-        <!-- 3. 匯率與記帳頁面 -->
-        <section id="tools" class="page-section">
-            <!-- Currency Converter -->
-            <div class="info-card">
-                <div class="card-title">💱 新台幣 ⇌ 泰銖匯率轉換</div>
-                <div class="converter-container">
-                    <div class="converter-group">
-                        <div class="converter-input-group">
-                            <label for="twd-amount">新台幣 (TWD)</label>
-                            <input type="number" id="twd-amount" placeholder="輸入新台幣金額" oninput="convertCurrency()">
-                        </div>
-                        <div class="converter-input-group">
-                            <label for="thb-amount">泰銖 (THB)</label>
-                            <input type="number" id="thb-amount" placeholder="輸入泰銖金額" oninput="convertCurrency('thb')">
-                        </div>
-                    </div>
-                    <div class="exchange-rate-info">
-                        <span id="exchange-rate-display">目前匯率：1 TWD = 1.1 THB (參考值)</span>
-                    </div>
-                </div>
+          <div class="p-2.5 bg-gray-50 border border-gray-200 rounded-xl flex justify-between items-center">
+            <div>
+              <p class="font-bold text-gray-800">駐泰國台北經濟文化辦事處</p>
+              <p class="text-[10px] text-gray-500">緊急聯絡電話</p>
             </div>
+            <a href="tel:+66816664006" class="bg-thai-green text-white font-bold px-3 py-1.5 rounded-lg text-xs">+66 81-666-4006</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            <!-- Expense Tracker -->
-            <div class="expense-tracker">
-                <div class="card-title">💳 旅程記帳</div>
-                
-                <div class="expense-form">
-                    <div class="form-group">
-                        <label for="expense-category">消費類別</label>
-                        <select id="expense-category">
-                            <option value="食物">🍽️ 食物</option>
-                            <option value="住宿">🏨 住宿</option>
-                            <option value="交通">🚕 交通</option>
-                            <option value="活動">🎫 活動</option>
-                            <option value="購物">🛍️ 購物</option>
-                            <option value="其他">📌 其他</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="expense-amount">金額 (THB)</label>
-                        <input type="number" id="expense-amount" placeholder="輸入泰銖金額" step="0.01">
-                    </div>
-                    <div class="form-group">
-                        <label for="expense-description">備註（選填）</label>
-                        <input type="text" id="expense-description" placeholder="例如：午餐、門票等">
-                    </div>
-                    <div class="form-group" style="justify-content: flex-end;">
-                        <button class="btn btn-primary" onclick="addExpense()" style="width: 100%;">➕ 新增支出</button>
-                    </div>
-                </div>
+  </main>
 
-                <div id="expense-list" class="expense-list">
-                    <!-- 由 JavaScript 動態插入 -->
-                </div>
-
-                <div class="expense-summary" id="expense-summary" style="display: none;">
-                    <div class="expense-total-row">
-                        <span>💰 旅程總支出</span>
-                        <span id="total-expense">฿ 0</span>
-                    </div>
-                    <div class="expense-total-row">
-                        <span>📊 平均每人支出</span>
-                        <span id="avg-expense">฿ 0</span>
-                    </div>
-                </div>
-
-                <div id="save-status-container"></div>
-            </div>
-        </section>
-
-        <!-- 4. 必備清單頁面 -->
-        <section id="checklist" class="page-section">
-            <div class="info-card">
-                <div class="card-title">🧳 行李必備清單</div>
-                
-                <div class="checklist-group">
-                    <h3 style="color: var(--terracotta); margin-bottom: 10px;">🛂 證件文件</h3>
-                    <div class="checklist-grid">
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="documents">
-                            <span>護照及影本</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="documents">
-                            <span>國際駕照</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="documents">
-                            <span>旅平險單據</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="documents">
-                            <span>信用卡 & 現金</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="documents">
-                            <span>機票確認單</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="documents">
-                            <span>飯店預訂確認</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="checklist-group">
-                    <h3 style="color: var(--terracotta); margin-bottom: 10px;">👕 衣著配飾</h3>
-                    <div class="checklist-grid">
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="clothes">
-                            <span>短袖 T-Shirt</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="clothes">
-                            <span>長褲/長裙（寺廟用）</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="clothes">
-                            <span>薄外套</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="clothes">
-                            <span>舒適布鞋</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="clothes">
-                            <span>涼鞋/拖鞋</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="clothes">
-                            <span>泳裝</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="clothes">
-                            <span>帽子/墨鏡</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="clothes">
-                            <span>內衣褲襪子</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="checklist-group">
-                    <h3 style="color: var(--terracotta); margin-bottom: 10px;">🧴 盥洗用品</h3>
-                    <div class="checklist-grid">
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="toiletries">
-                            <span>護照尺寸照片</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="toiletries">
-                            <span>牙膏牙刷</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="toiletries">
-                            <span>洗髮沐浴用品</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="toiletries">
-                            <span>防曬乳液</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="toiletries">
-                            <span>化妝品/鬍鬚刀</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="toiletries">
-                            <span>毛巾/擦手巾</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="toiletries">
-                            <span>衛生紙/濕紙巾</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="toiletries">
-                            <span>常用藥物</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="checklist-group">
-                    <h3 style="color: var(--terracotta); margin-bottom: 10px;">📱 3C 電子用品</h3>
-                    <div class="checklist-grid">
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="electronics">
-                            <span>手機及充電線</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="electronics">
-                            <span>行動電源</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="electronics">
-                            <span>轉接頭/變壓器</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="electronics">
-                            <span>相機及配件</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="electronics">
-                            <span>耳機</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" data-category="electronics">
-                            <span>手電筒/照明</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="reminder-box">
-                    <h3>✅ 出發前最後檢查</h3>
-                    <ul>
-                        <li>確認護照有效期 > 6 個月</li>
-                        <li>查詢泰國簽證需求</li>
-                        <li>通知銀行預計出國日期</li>
-                        <li>購買旅遊保險</li>
-                        <li>通知家人行程資訊</li>
-                        <li>關掉瓦斯/檢查門窗</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- 5. 小叮嚀頁面 -->
-        <section id="tips" class="page-section">
-            <div class="info-card">
-                <div class="card-title">ℹ️ 旅遊小叮嚀</div>
-                
-                <div class="reminder-box">
-                    <h3>💱 貨幣 & 消費</h3>
-                    <ul>
-                        <li><b>匯率參考：</b>1 TWD ≈ 1.1 THB (實際匯率會變動)</li>
-                        <li><b>ATM 取款：</b>泰國 ATM 廣泛，建議攜帶 Visa/Mastercard</li>
-                        <li><b>消費習慣：</b>大多地區不需給小費，但餐廳/SPA 可選擇給 5-10%</li>
-                        <li><b>退稅：</b>購物滿 2,000 THB 可辦理 VAT 退稅</li>
-                    </ul>
-                </div>
-
-                <div class="reminder-box">
-                    <h3>🌡️ 氣候 & 防曬</h3>
-                    <ul>
-                        <li><b>清邁 7 月氣候：</b>濕熱季節，高溫 33-35°C，午後易有雨</li>
-                        <li><b>防曬必需：</b>高 SPF 防曬霜，帽子/太陽眼鏡必備</li>
-                        <li><b>保水：</b>隨身攜帶水瓶，補充電解質飲料</li>
-                        <li><b>服裝：</b>輕薄透氣衣物，在寺廟需著長褲/裙</li>
-                    </ul>
-                </div>
-
-                <div class="reminder-box">
-                    <h3>🧍 文化禮儀</h3>
-                    <ul>
-                        <li><b>尊重王室：</b>不可貶低或不尊重泰國王室成員</li>
-                        <li><b>進寺廟禮儀：</b>脫鞋、穿著長褲/裙、不可觸摸佛像</li>
-                        <li><b>問候方式：</b>合十禮是常見的禮儀</li>
-                        <li><b>飲酒文化：</b>敬酒時需雙手接杯</li>
-                    </ul>
-                </div>
-
-                <div class="reminder-box">
-                    <h3>🚗 交通 & 安全</h3>
-                    <ul>
-                        <li><b>計程車：</b>使用 Grab App 最安全，或選擇有 Meter 的黃色計程車</li>
-                        <li><b>騎機車：</b>需國際駕照，強制戴安全帽</li>
-                        <li><b>夜間活動：</b>避免獨自外出，結伴同行更安全</li>
-                        <li><b>一般安全：</b>清邁是安全城市，但需注意貴重物品</li>
-                    </ul>
-                </div>
-
-                <div class="reminder-box">
-                    <h3>🍜 美食 & 衛生</h3>
-                    <ul>
-                        <li><b>飲水：</b>建議喝瓶裝水或煮沸水</li>
-                        <li><b>道地美食：</b>必試清邁麵、咖哩、芒果糯米飯</li>
-                        <li><b>辛辣度：</b>第一次用餐時請先詢問辣度</li>
-                        <li><b>夜市推薦：</b>Saturday Walking Street & Sunday Walking Street</li>
-                    </ul>
-                </div>
-
-                <div class="reminder-box">
-                    <h3>📞 緊急聯絡</h3>
-                    <ul>
-                        <li><b>台北駐泰北經貿辦：</b>+66-53-283-021</li>
-                        <li><b>泰國警察：</b>191（觀光警察 1155）</li>
-                        <li><b>醫療服務：</b>清邁有多家國際醫院，如 Bangkok Hospital</li>
-                        <li><b>旅遊諮詢：</b>清邁旅遊局 +66-53-248-604</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
+  <!-- 通用 Modal：新增探店/伴手禮 -->
+  <div id="addModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl w-full max-w-sm p-4 space-y-3 shadow-2xl">
+      <div class="flex justify-between items-center border-b pb-2">
+        <h3 id="modalTitle" class="font-bold text-thai-green text-sm">新增項目</h3>
+        <button onclick="closeModal()" class="text-gray-400 text-sm">&times;</button>
+      </div>
+      <input type="hidden" id="modalType">
+      <input type="text" id="modalName" placeholder="名稱/店名" class="w-full border rounded-xl p-2 text-xs focus:outline-none">
+      <input type="text" id="modalCategory" placeholder="分類 (例：🍴 泰式正餐, ☕ 咖啡)" class="w-full border rounded-xl p-2 text-xs focus:outline-none">
+      <input type="text" id="modalHours" placeholder="營業時間 / 價格" class="w-full border rounded-xl p-2 text-xs focus:outline-none">
+      <textarea id="modalDesc" placeholder="必買推薦 / 備註敘述 (可附網址)" class="w-full border rounded-xl p-2 text-xs focus:outline-none" rows="2"></textarea>
+      <input type="text" id="modalUrl" placeholder="Google Maps 或參考網址 (http...)" class="w-full border rounded-xl p-2 text-xs focus:outline-none">
+      
+      <button onclick="saveModalData()" class="w-full bg-thai-green text-white font-bold py-2 rounded-xl text-xs shadow">確認儲存</button>
     </div>
+  </div>
 
-    <script>
-        // ==================== LocalStorage 管理 ====================
-        const STORAGE_KEYS = {
-            EXPENSES: 'chiang_mai_expenses',
-            CURRENCY: 'chiang_mai_currency',
-            CHECKLIST: 'chiang_mai_checklist',
-            DAY_STATES: 'chiang_mai_day_states',
-            EXCHANGE_RATE: 'chiang_mai_exchange_rate'
+  <!-- 底部固定 Navigation Bar -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-thai-sand z-40 shadow-lg">
+    <div class="max-w-md mx-auto grid grid-cols-5 text-center py-2">
+      <button onclick="switchTab('plan')" id="nav-plan" class="nav-btn text-thai-green flex flex-col items-center">
+        <i class="fa-regular fa-calendar-check text-lg"></i>
+        <span class="text-[10px] font-bold mt-0.5">行程</span>
+      </button>
+      <button onclick="switchTab('guide')" id="nav-guide" class="nav-btn text-gray-400 flex flex-col items-center">
+        <i class="fa-solid fa-map-pin text-lg"></i>
+        <span class="text-[10px] font-bold mt-0.5">導覽</span>
+      </button>
+      <button onclick="switchTab('wallet')" id="nav-wallet" class="nav-btn text-gray-400 flex flex-col items-center">
+        <i class="fa-solid fa-wallet text-lg"></i>
+        <span class="text-[10px] font-bold mt-0.5">記帳</span>
+      </button>
+      <button onclick="switchTab('lists')" id="nav-lists" class="nav-btn text-gray-400 flex flex-col items-center">
+        <i class="fa-solid fa-list-check text-lg"></i>
+        <span class="text-[10px] font-bold mt-0.5">清單</span>
+      </button>
+      <button onclick="switchTab('explore')" id="nav-explore" class="nav-btn text-gray-400 flex flex-col items-center">
+        <i class="fa-solid fa-store text-lg"></i>
+        <span class="text-[10px] font-bold mt-0.5">探店</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- 邏輯 Script -->
+  <script>
+    /* ============================================================
+       資料結構與預設 Initial Data
+    ============================================================ */
+    const defaultData = {
+      exchangeRate: 0.92,
+      personalNote: "",
+      privacyMasked: false,
+      isElderMode: false,
+      
+      // 每日行程資料
+      itinerary: {
+        1: [
+          { time: "04:00", title: "機場接送 (新竹站)", desc: "新竹接送點出發 (5人)", tag: "交通", checked: false },
+          { time: "04:30", title: "機場接送 (林口站)", desc: "林口接送點出發 (1人)", tag: "交通", checked: false },
+          { time: "05:10", title: "抵達桃園機場 T1", desc: "前往第一航廈辦理報到", tag: "交通", checked: false },
+          { time: "07:00", title: "登機 CI851", desc: "起飛 07:30 ➔ 10:20 落地清邁", tag: "航班", checked: false },
+          { time: "12:00", title: "搭 Grab 前往第一間飯店寄行李", desc: "阿基拉塔佩飯店 Akira Thaphae Hotel", mapUrl: "https://maps.app.goo.gl/n1uugu3ECD6roM3G7?g_st=ic", checked: false },
+          { time: "15:20", title: "接駁參加“奶奶的廚房”", desc: "價格 $855/人，含市場導覽、調理泰式料理與芒果糯米飯", checked: false },
+          { time: "19:00", title: "搭車回飯店入住整理", desc: "", checked: false }
+        ],
+        2: [
+          { time: "07:30", title: "飯店享用早餐", desc: "", checked: false },
+          { time: "08:50", title: "等車接駁：清萊一日遊", desc: "費用 $1,270/人 (總時長 9hr)", checked: false },
+          { time: "09:30", title: "抵達溫泉 (煮溫泉蛋)", desc: "", checked: false },
+          { time: "11:00", title: "參觀白廟 Wat Rong Khun", desc: "⚠️ 注意：參觀寺廟不能穿短褲/露肩", checked: false },
+          { time: "13:30", title: "參觀黑廟 & 14:30 藍廟", desc: "", checked: false },
+          { time: "16:00", title: "探訪長頸村", desc: "", checked: false },
+          { time: "17:00", title: "搭車返回清邁飯店", desc: "", checked: false }
+        ],
+        3: [
+          { time: "08:00", title: "享用早餐", desc: "", checked: false },
+          { time: "11:00", title: "退房辦理 & 換第二間飯店", desc: "搭 Grab 前往那皮亞丁精品飯店寄行李", mapUrl: "https://maps.app.goo.gl/EZeeKqaLUmzax9vF7?g_st=ic", checked: false },
+          { time: "12:50", title: "接駁參加“大象互動 + 夜間野生動物園”", desc: "價格 $1,900/人 (總時長 7hr)", checked: false },
+          { time: "14:30", title: "蘭納大象保護區", desc: "製作食物、餵食、大象洗澡 (⚠️ 需多帶一套換洗衣物)", checked: false },
+          { time: "17:30", title: "前往清邁夜間野生動物園", desc: "含簡單泰式餐點", checked: false },
+          { time: "20:30", title: "搭車回飯店", desc: "", checked: false }
+        ],
+        4: [
+          { time: "全天", title: "全日自由活動 Day", desc: "可彈性排入願望探店、按摩或市集採購", checked: false },
+          { time: "07:00", title: "早餐時間", desc: "", checked: false },
+          { time: "12:00", title: "午餐與咖啡館巡禮", desc: "", checked: false }
+        ],
+        5: [
+          { time: "07:00", title: "享用早餐", desc: "", checked: false },
+          { time: "08:00", title: "飯店辦理退房", desc: "", checked: false },
+          { time: "08:30", title: "搭車前往清邁 CNX 機場", desc: "", checked: false },
+          { time: "10:40", title: "登機 CI852", desc: "起飛 11:20 ➔ 16:00 落地台灣", checked: false },
+          { time: "17:15", title: "機場接送 (回家)", desc: "提完行李後自行電話聯絡接送司機", checked: false }
+        ]
+      },
+
+      // 行前準備 CheckList
+      checklist: [
+        { text: "旅遊平安不便險投保", checked: true },
+        { text: "泰國電子入境卡 Official TDAC", checked: false },
+        { text: "護照正本 + 駕照正本 + 國際駕照", checked: true },
+        { text: "同等值 2 萬泰銖現金 (外幣)", checked: true },
+        { text: "常備藥品 (腸胃藥、暈車藥、個人藥)", checked: false },
+        { text: "防曬乳 + 防蚊液 + 雨傘/雨衣", checked: false },
+        { text: "大象行程替換衣物 + 小毛巾", checked: false },
+        { text: "行動電源 + 充電線 + 手持風扇", checked: false }
+      ],
+
+      // 探店資料
+      spots: [
+        { id: '1', category: '🍴 泰式正餐與米其林', name: 'Baan Landai Fine Thai Cuisine', hours: '11:00 - 15:00, 17:00 - 22:00 (週一休)', desc: '⭐ 推薦：泰北香料烤魚、脆皮燒肉 (需預約)', checked: false, url: 'https://maps.google.com' },
+        { id: '2', category: '🍴 泰式正餐與米其林', name: 'Khao Soi Maesai (咖哩麵)', hours: '08:00 - 16:00 (週日休)', desc: '⭐ 推薦：雞腿泰北咖哩麵 (Khao Soi)', checked: false },
+        { id: '3', category: '🍴 泰式正餐與米其林', name: '陶罐火鍋 Jim Jum', hours: '17:00 - 23:00', desc: '⭐ 推薦：傳統泰式陶罐湯底、烤豬頸肉', checked: false },
+        { id: '4', category: '☕ 咖啡飲品與甜點', name: 'Magic Brew Coffee', hours: '07:30 - 17:00', desc: '⭐ 推薦：沖繩黑糖泰奶', checked: false },
+        { id: '5', category: '🛍️ 文青選物與市集', name: 'Good goods', hours: '09:00 - 20:00', desc: '⭐ 推薦：質感刺繡大象包', checked: false },
+        { id: '6', category: '🛍️ 文青選物與市集', name: 'White Market 白色市集', hours: '週五至週日 15:00 - 22:00', desc: '⭐ 推薦：日系風格手作品、明信片', checked: false }
+      ],
+
+      // 伴手禮資料
+      souvenirs: [
+        { id: 's1', category: '🛒 Big C 超市採購', name: 'ChaTraMue 手標茶', desc: '泰式紅茶包、泰奶粉罐', checked: false },
+        { id: 's2', category: '🛒 Big C 超市採購', name: 'MAMA 泡麵 & 皇家蜂蜜', desc: '冬蔭功口味、蜂蜜軟管裝', checked: false },
+        { id: 's3', category: '🏮 瓦落落傳統市場', name: '泰北香腸 & 大象褲', desc: '現烤/真空香腸、百元泰式沙灘褲', checked: false }
+      ],
+
+      expenses: []
+    };
+
+    /* ============================================================
+       DataStore 抽象層 (LocalStorage & 未來 Firebase / Supabase 擴充)
+    ============================================================ */
+    class DataStore {
+      static getKey() { return 'chiangmai_travel_app_v1'; }
+      
+      static load() {
+        const stored = localStorage.getItem(this.getKey());
+        if (!stored) {
+          this.save(defaultData);
+          return defaultData;
+        }
+        try {
+          return JSON.parse(stored);
+        } catch(e) {
+          return defaultData;
+        }
+      }
+
+      static save(data) {
+        localStorage.setItem(this.getKey(), JSON.stringify(data));
+        
+        /* 
+         * 跨裝置同步擴充提示 (Firebase / Supabase)：
+         * 若需親友即時同步，可在此處加入 Webhook / DB 更新程式碼：
+         * await firebase.database().ref('trip').set(data);
+        */
+      }
+    }
+
+    let appState = DataStore.load();
+    let currentDayIndex = 1;
+    let uploadedImageBase64 = null;
+
+    /* ============================================================
+       頁面初始化 & UI 切換
+    ============================================================ */
+    document.addEventListener("DOMContentLoaded", () => {
+      renderAll();
+      initSortable();
+    });
+
+    function renderAll() {
+      renderDayItinerary(currentDayIndex);
+      renderChecklist();
+      renderSpots();
+      renderSouvenirs();
+      renderExpenses();
+      
+      document.getElementById('personalNote').value = appState.personalNote || '';
+      renderNoteLinks();
+      document.getElementById('rateLabel').innerText = appState.exchangeRate;
+
+      if (appState.isElderMode) document.body.classList.add('elder-mode');
+      applyPrivacyMask();
+    }
+
+    // 分頁切換
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+
+      document.querySelectorAll('.nav-btn').forEach(el => {
+        el.classList.remove('text-thai-green');
+        el.classList.add('text-gray-400');
+      });
+      document.getElementById(`nav-${tabName}`).classList.add('text-thai-green');
+      document.getElementById(`nav-${tabName}`).classList.remove('text-gray-400');
+    }
+
+    /* ============================================================
+       1. PLAN 行程邏輯
+    ============================================================ */
+    function switchDay(dayNum) {
+      currentDayIndex = dayNum;
+      document.querySelectorAll('.day-btn').forEach(btn => {
+        btn.classList.remove('bg-thai-green', 'text-white');
+        btn.classList.add('bg-gray-100', 'text-gray-600');
+      });
+      const activeBtn = document.getElementById(`dayBtn-${dayNum}`);
+      activeBtn.classList.remove('bg-gray-100', 'text-gray-600');
+      activeBtn.classList.add('bg-thai-green', 'text-white');
+
+      renderDayItinerary(dayNum);
+    }
+
+    function renderDayItinerary(dayNum) {
+      const area = document.getElementById('dayContentArea');
+      const items = appState.itinerary[dayNum] || [];
+
+      if (items.length === 0) {
+        area.innerHTML = `<p class="text-xs text-gray-400 py-4">本日尚無排定行程</p>`;
+        return;
+      }
+
+      area.innerHTML = items.map((item, index) => `
+        <div class="relative group flex items-start space-x-3">
+          <div class="absolute -left-[21px] top-1 w-3.5 h-3.5 rounded-full border-2 border-thai-gold bg-white"></div>
+          <div class="flex-1 bg-thai-cream/40 rounded-xl p-3 border border-gray-100">
+            <div class="flex justify-between items-center">
+              <span class="font-bold text-xs text-thai-green">${item.time}</span>
+              <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleItineraryCheck(${dayNum}, ${index})" class="rounded text-thai-green">
+            </div>
+            <h4 class="font-bold text-xs text-gray-800 mt-1 ${item.checked ? 'line-through text-gray-400' : ''}">${item.title}</h4>
+            ${item.desc ? `<p class="text-[11px] text-gray-500 mt-0.5">${convertUrlsToLinks(item.desc)}</p>` : ''}
+            ${item.mapUrl ? `<a href="${item.mapUrl}" target="_blank" class="inline-block mt-2 text-[10px] bg-thai-gold/20 text-thai-gold px-2 py-0.5 rounded font-bold"><i class="fa-solid fa-location-arrow"></i> 開啟 Google 地圖</a>` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function toggleItineraryCheck(dayNum, index) {
+      appState.itinerary[dayNum][index].checked = !appState.itinerary[dayNum][index].checked;
+      DataStore.save(appState);
+      renderDayItinerary(dayNum);
+    }
+
+    /* ============================================================
+       2. LISTS 清單與個人備忘錄邏輯
+    ============================================================ */
+    function renderChecklist() {
+      const container = document.getElementById('checklistContainer');
+      container.innerHTML = appState.checklist.map((item, idx) => `
+        <label class="flex items-center justify-between p-2 rounded-xl bg-thai-cream/30 border border-gray-100">
+          <span class="${item.checked ? 'line-through text-gray-400' : 'text-gray-700'}">${item.text}</span>
+          <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleChecklistItem(${idx})" class="rounded text-thai-green w-4 h-4">
+        </label>
+      `).join('');
+    }
+
+    function toggleChecklistItem(idx) {
+      appState.checklist[idx].checked = !appState.checklist[idx].checked;
+      DataStore.save(appState);
+      renderChecklist();
+    }
+
+    function savePersonalNote() {
+      const val = document.getElementById('personalNote').value;
+      appState.personalNote = val;
+      DataStore.save(appState);
+      renderNoteLinks();
+    }
+
+    function renderNoteLinks() {
+      const text = appState.personalNote || '';
+      const urls = text.match(/(https?:\/\/[^\s]+)/g) || [];
+      const area = document.getElementById('noteLinkArea');
+      
+      area.innerHTML = urls.map(url => `
+        <a href="${url}" target="_blank" class="bg-thai-gold text-white text-[10px] px-2.5 py-1 rounded-full flex items-center gap-1 shadow-sm">
+          <i class="fa-solid fa-link"></i> 點擊開啟連結
+        </a>
+      `).join('');
+    }
+
+    /* ============================================================
+       3. WALLET 記帳與 Canvas 照片壓縮邏輯
+    ============================================================ */
+    function calcExchange(source) {
+      const rate = appState.exchangeRate;
+      if (source === 'thb') {
+        const thb = parseFloat(document.getElementById('thbInput').value) || 0;
+        document.getElementById('twdInput').value = Math.round(thb * rate);
+      } else {
+        const twd = parseFloat(document.getElementById('twdInput').value) || 0;
+        document.getElementById('thbInput').value = Math.round(twd / rate);
+      }
+    }
+
+    function setRatePrompt() {
+      const newRate = prompt("請輸入自訂匯率 (例如 1 泰銖 = 多少台幣):", appState.exchangeRate);
+      if (newRate && !isNaN(newRate)) {
+        appState.exchangeRate = parseFloat(newRate);
+        DataStore.save(appState);
+        document.getElementById('rateLabel').innerText = appState.exchangeRate;
+        calcExchange('thb');
+      }
+    }
+
+    // 透過 Canvas 壓縮圖片轉 Base64
+    function handleImageUpload(input) {
+      const file = input.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          
+          // 縮放尺寸 (最大寬度 300px)
+          const maxWidth = 300;
+          const scale = maxWidth / img.width;
+          canvas.width = maxWidth;
+          canvas.height = img.height * scale;
+
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          uploadedImageBase64 = canvas.toDataURL('image/jpeg', 0.6); // 壓縮品質 0.6
+
+          const prevArea = document.getElementById('imgPreviewArea');
+          prevArea.style.backgroundImage = `url(${uploadedImageBase64})`;
+          prevArea.classList.remove('hidden');
         };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
 
-        // ==================== 初始化 ====================
-        document.addEventListener('DOMContentLoaded', function() {
-            loadAllData();
-            attachChecklistListeners();
-            initializeCurrencyInputs();
-        });
+    function addExpense(e) {
+      e.preventDefault();
+      const item = document.getElementById('expItem').value;
+      const amount = parseFloat(document.getElementById('expAmount').value);
+      const payer = document.getElementById('expPayer').value;
+      const method = document.getElementById('expPayMethod').value;
+      const target = document.getElementById('expTarget').value;
 
-        // ==================== 通用儲存/讀取函數 ====================
-        function saveData(key, data) {
-            try {
-                localStorage.setItem(key, JSON.stringify(data));
-                showSaveStatus('✅ 已自動儲存');
-            } catch (e) {
-                console.error('Storage error:', e);
-            }
+      const newExpense = {
+        id: Date.now(),
+        item,
+        amount,
+        payer,
+        method,
+        target,
+        img: uploadedImageBase64,
+        date: new Date().toLocaleDateString('zh-TW', { month: 'numeric', day: 'numeric' })
+      };
+
+      appState.expenses.unshift(newExpense);
+      DataStore.save(appState);
+      
+      // 重設表單
+      document.getElementById('walletForm').reset();
+      uploadedImageBase64 = null;
+      document.getElementById('imgPreviewArea').classList.add('hidden');
+
+      renderExpenses();
+    }
+
+    function renderExpenses() {
+      const list = document.getElementById('expenseList');
+      let total = 0;
+
+      list.innerHTML = appState.expenses.map(exp => {
+        total += exp.amount;
+        return `
+          <div class="p-2.5 rounded-xl bg-thai-cream/40 border border-gray-100 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+              ${exp.img ? `<img src="${exp.img}" class="w-10 h-10 object-cover rounded-lg">` : ''}
+              <div>
+                <p class="font-bold text-gray-800">${exp.item}</p>
+                <p class="text-[10px] text-gray-400">${exp.date}｜${exp.payer} (${exp.method}) ${exp.target ? `➔ ${exp.target}` : ''}</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <p class="font-bold text-thai-green">${exp.amount} THB</p>
+              <p class="text-[10px] text-gray-400">≈ $${Math.round(exp.amount * appState.exchangeRate)} TWD</p>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('totalExpenseLabel').innerText = `總計: ${total} THB`;
+    }
+
+    /* ============================================================
+       4. EXPLORE 探店 & 伴手禮邏輯
+    ============================================================ */
+    function renderSpots() {
+      const container = document.getElementById('spotsContainer');
+      container.innerHTML = appState.spots.map((spot, idx) => `
+        <div data-id="${spot.id}" class="swipe-item relative bg-thai-cream/30 p-3 rounded-xl border border-gray-100 flex justify-between items-start">
+          <div class="flex items-start space-x-2">
+            <input type="checkbox" ${spot.checked ? 'checked' : ''} onchange="toggleSpotCheck('spot', ${idx})" class="mt-1 rounded text-thai-green">
+            <div>
+              <span class="text-[9px] font-bold bg-thai-gold/20 text-thai-gold px-1.5 py-0.5 rounded">${spot.category || '未分類'}</span>
+              <h4 class="font-bold text-xs text-gray-800 mt-0.5 ${spot.checked ? 'line-through text-gray-400' : ''}">${spot.name}</h4>
+              ${spot.hours ? `<p class="text-[10px] text-gray-500">⏰ ${spot.hours}</p>` : ''}
+              ${spot.desc ? `<p class="text-[10px] text-gray-600 mt-1">${convertUrlsToLinks(spot.desc)}</p>` : ''}
+            </div>
+          </div>
+          <button onclick="deleteItem('spot', ${idx})" class="text-gray-300 hover:text-red-500 p-1 text-xs">&times;</button>
+        </div>
+      `).join('');
+    }
+
+    function renderSouvenirs() {
+      const container = document.getElementById('souvenirContainer');
+      container.innerHTML = appState.souvenirs.map((souv, idx) => `
+        <div data-id="${souv.id}" class="swipe-item relative bg-thai-cream/30 p-3 rounded-xl border border-gray-100 flex justify-between items-start">
+          <div class="flex items-start space-x-2">
+            <input type="checkbox" ${souv.checked ? 'checked' : ''} onchange="toggleSpotCheck('souvenir', ${idx})" class="mt-1 rounded text-thai-green">
+            <div>
+              <span class="text-[9px] font-bold bg-thai-green/20 text-thai-green px-1.5 py-0.5 rounded">${souv.category || '未分類'}</span>
+              <h4 class="font-bold text-xs text-gray-800 mt-0.5 ${souv.checked ? 'line-through text-gray-400' : ''}">${souv.name}</h4>
+              ${souv.desc ? `<p class="text-[10px] text-gray-600 mt-1">${convertUrlsToLinks(souv.desc)}</p>` : ''}
+            </div>
+          </div>
+          <button onclick="deleteItem('souvenir', ${idx})" class="text-gray-300 hover:text-red-500 p-1 text-xs">&times;</button>
+        </div>
+      `).join('');
+    }
+
+    function toggleSpotCheck(type, index) {
+      if (type === 'spot') appState.spots[index].checked = !appState.spots[index].checked;
+      else appState.souvenirs[index].checked = !appState.souvenirs[index].checked;
+      DataStore.save(appState);
+      renderSpots();
+      renderSouvenirs();
+    }
+
+    function deleteItem(type, index) {
+      if (confirm('確定要刪除此項目嗎？')) {
+        if (type === 'spot') appState.spots.splice(index, 1);
+        else appState.souvenirs.splice(index, 1);
+        DataStore.save(appState);
+        renderSpots();
+        renderSouvenirs();
+      }
+    }
+
+    // Modal 操作
+    function openAddSpotModal(type) {
+      document.getElementById('modalType').value = type;
+      document.getElementById('modalTitle').innerText = type === 'spot' ? '新增探店店家' : '新增願望伴手禮';
+      document.getElementById('addModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('addModal').classList.add('hidden');
+    }
+
+    function saveModalData() {
+      const type = document.getElementById('modalType').value;
+      const name = document.getElementById('modalName').value;
+      const category = document.getElementById('modalCategory').value;
+      const hours = document.getElementById('modalHours').value;
+      const desc = document.getElementById('modalDesc').value;
+      const url = document.getElementById('modalUrl').value;
+
+      if (!name) return alert('請輸入名稱！');
+
+      const newItem = {
+        id: Date.now().toString(),
+        name,
+        category,
+        hours,
+        desc: url ? `${desc} ${url}` : desc,
+        checked: false
+      };
+
+      if (type === 'spot') appState.spots.unshift(newItem);
+      else appState.souvenirs.unshift(newItem);
+
+      DataStore.save(appState);
+      closeModal();
+      renderSpots();
+      renderSouvenirs();
+    }
+
+    // 初始化 Drag & Drop 排序
+    function initSortable() {
+      const spotsEl = document.getElementById('spotsContainer');
+      const souvenirEl = document.getElementById('souvenirContainer');
+
+      new Sortable(spotsEl, {
+        animation: 150,
+        onEnd: () => {
+          // 重新排序 State
+          const newOrder = Array.from(spotsEl.children).map(child => child.dataset.id);
+          appState.spots.sort((a, b) => newOrder.indexOf(a.id) - newOrder.indexOf(b.id));
+          DataStore.save(appState);
         }
+      });
 
-        function loadData(key, defaultValue = null) {
-            try {
-                const data = localStorage.getItem(key);
-                return data ? JSON.parse(data) : defaultValue;
-            } catch (e) {
-                console.error('Load error:', e);
-                return defaultValue;
-            }
+      new Sortable(souvenirEl, {
+        animation: 150,
+        onEnd: () => {
+          const newOrder = Array.from(souvenirEl.children).map(child => child.dataset.id);
+          appState.souvenirs.sort((a, b) => newOrder.indexOf(a.id) - newOrder.indexOf(b.id));
+          DataStore.save(appState);
         }
+      });
+    }
 
-        function showSaveStatus(message) {
-            const container = document.getElementById('save-status-container');
-            if (container) {
-                container.innerHTML = `<div class="save-status">${message}</div>`;
-                setTimeout(() => {
-                    container.innerHTML = '';
-                }, 2000);
-            }
-        }
+    /* ============================================================
+       工具函數：模式切換、個資隱私、URL 自動轉換
+    ============================================================ */
+    function toggleElderMode() {
+      appState.isElderMode = !appState.isElderMode;
+      document.body.classList.toggle('elder-mode', appState.isElderMode);
+      document.getElementById('elderBtn').innerText = appState.isElderMode ? '大字模式' : '標準';
+      DataStore.save(appState);
+    }
 
-        // ==================== 頁籤切換 ====================
-        function switchPage(pageId) {
-            // 隱藏所有頁面
-            document.querySelectorAll('.page-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            // 顯示選定頁面
-            document.getElementById(pageId).classList.add('active');
+    function togglePrivacy() {
+      appState.privacyMasked = !appState.privacyMasked;
+      applyPrivacyMask();
+      DataStore.save(appState);
+    }
 
-            // 更新按鈕狀態
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-        }
+    function applyPrivacyMask() {
+      const targets = document.querySelectorAll('.privacy-target');
+      const icon = document.getElementById('privacyIcon');
+      targets.forEach(el => {
+        if (appState.privacyMasked) el.classList.add('privacy-masked');
+        else el.classList.remove('privacy-masked');
+      });
+      icon.className = appState.privacyMasked ? "fa-solid fa-eye-slash" : "fa-solid fa-eye";
+    }
 
-        // ==================== 日期展開/收合 ====================
-        function toggleDay(dayId) {
-            const content = document.getElementById(dayId);
-            const arrow = document.getElementById('arrow-' + dayId);
-            
-            content.classList.toggle('active');
-            arrow.classList.toggle('active');
-
-            // 儲存展開狀態
-            const states = loadData(STORAGE_KEYS.DAY_STATES, {});
-            states[dayId] = content.classList.contains('active');
-            saveData(STORAGE_KEYS.DAY_STATES, states);
-        }
-
-        // ==================== 記帳功能 ====================
-        function addExpense() {
-            const category = document.getElementById('expense-category').value;
-            const amount = parseFloat(document.getElementById('expense-amount').value);
-            const description = document.getElementById('expense-description').value;
-
-            if (isNaN(amount) || amount <= 0) {
-                alert('請輸入有效的金額');
-                return;
-            }
-
-            // 建立支出物件
-            const expense = {
-                id: Date.now(),
-                category,
-                amount,
-                description,
-                date: new Date().toLocaleString('zh-TW')
-            };
-
-            // 取得現有支出
-            let expenses = loadData(STORAGE_KEYS.EXPENSES, []);
-            expenses.push(expense);
-
-            // 儲存
-            saveData(STORAGE_KEYS.EXPENSES, expenses);
-
-            // 清空輸入框
-            document.getElementById('expense-amount').value = '';
-            document.getElementById('expense-description').value = '';
-
-            // 重新渲染
-            displayExpenses();
-        }
-
-        function deleteExpense(id) {
-            let expenses = loadData(STORAGE_KEYS.EXPENSES, []);
-            expenses = expenses.filter(exp => exp.id !== id);
-            saveData(STORAGE_KEYS.EXPENSES, expenses);
-            displayExpenses();
-        }
-
-        function displayExpenses() {
-            const expenses = loadData(STORAGE_KEYS.EXPENSES, []);
-            const listContainer = document.getElementById('expense-list');
-            const summaryContainer = document.getElementById('expense-summary');
-
-            if (expenses.length === 0) {
-                listContainer.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">還未有任何記帳紀錄</p>';
-                summaryContainer.style.display = 'none';
-                return;
-            }
-
-            // 按分類統計
-            const categoryTotals = {};
-            let totalAmount = 0;
-
-            expenses.forEach(exp => {
-                totalAmount += exp.amount;
-                if (!categoryTotals[exp.category]) {
-                    categoryTotals[exp.category] = 0;
-                }
-                categoryTotals[exp.category] += exp.amount;
-            });
-
-            // 渲染支出列表
-            listContainer.innerHTML = expenses.map(exp => `
-                <div class="expense-item">
-                    <div class="expense-item-info">
-                        <div class="expense-item-category">${exp.category}</div>
-                        <div class="expense-item-description">${exp.description || '無'} • ${exp.date}</div>
-                    </div>
-                    <div class="expense-item-amount">฿ ${exp.amount.toFixed(2)}</div>
-                    <button class="expense-item-delete" onclick="deleteExpense(${exp.id})">刪除</button>
-                </div>
-            `).join('');
-
-            // 更新摘要
-            document.getElementById('total-expense').textContent = `฿ ${totalAmount.toFixed(2)}`;
-            document.getElementById('avg-expense').textContent = `฿ ${(totalAmount / 2).toFixed(2)}`;
-            summaryContainer.style.display = 'block';
-        }
-
-        // ==================== 匯率轉換 ====================
-        const EXCHANGE_RATE = 1.1; // 1 TWD = 1.1 THB (參考值，可更新)
-
-        function convertCurrency(source = 'twd') {
-            const twdInput = document.getElementById('twd-amount');
-            const thbInput = document.getElementById('thb-amount');
-
-            if (source === 'twd') {
-                const twd = parseFloat(twdInput.value) || 0;
-                thbInput.value = (twd * EXCHANGE_RATE).toFixed(2);
-            } else {
-                const thb = parseFloat(thbInput.value) || 0;
-                twdInput.value = (thb / EXCHANGE_RATE).toFixed(2);
-            }
-
-            // 儲存匯率輸入
-            const currencyData = {
-                twd: twdInput.value,
-                thb: thbInput.value,
-                timestamp: new Date().toISOString()
-            };
-            saveData(STORAGE_KEYS.CURRENCY, currencyData);
-        }
-
-        function initializeCurrencyInputs() {
-            const currencyData = loadData(STORAGE_KEYS.CURRENCY, {});
-            if (currencyData.twd) {
-                document.getElementById('twd-amount').value = currencyData.twd;
-            }
-            if (currencyData.thb) {
-                document.getElementById('thb-amount').value = currencyData.thb;
-            }
-        }
-
-        // ==================== 打包清單 ====================
-        function attachChecklistListeners() {
-            document.querySelectorAll('.checkbox-label input[type="checkbox"]').forEach(checkbox => {
-                // 加載儲存的狀態
-                const category = checkbox.getAttribute('data-category');
-                const savedStates = loadData(STORAGE_KEYS.CHECKLIST, {});
-                const itemText = checkbox.nextElementSibling.textContent;
-                const key = `${category}_${itemText}`;
-                
-                if (savedStates[key]) {
-                    checkbox.checked = true;
-                }
-
-                // 監聽變化
-                checkbox.addEventListener('change', function() {
-                    const states = loadData(STORAGE_KEYS.CHECKLIST, {});
-                    states[key] = this.checked;
-                    saveData(STORAGE_KEYS.CHECKLIST, states);
-                });
-            });
-        }
-
-        // ==================== 天氣預報（模擬） ====================
-        function loadWeather() {
-            const weatherData = [
-                { day: '7/27 (一)', temp: '33°C', condition: '晴時多雲' },
-                { day: '7/28 (二)', temp: '32°C', condition: '午後雷陣雨' },
-                { day: '7/29 (三)', temp: '31°C', condition: '多雲' },
-                { day: '7/30 (四)', temp: '34°C', condition: '晴朗' },
-                { day: '7/31 (五)', temp: '32°C', condition: '晴時多雲' }
-            ];
-
-            const weatherContainer = document.getElementById('weather-data');
-            weatherContainer.innerHTML = weatherData.map(w => `
-                <div class="weather-day">
-                    <div class="weather-day-name">${w.day}</div>
-                    <div class="weather-temp">${w.temp}</div>
-                    <div class="weather-condition">${w.condition}</div>
-                </div>
-            `).join('');
-            weatherContainer.style.display = 'grid';
-        }
-
-        // ==================== PDF 下載 ====================
-        function downloadPDF() {
-            const element = document.querySelector('.container');
-            const opt = {
-                margin: 10,
-                filename: '清邁旅遊行程.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
-            };
-            html2pdf().set(opt).from(element).save();
-        }
-
-        // ==================== 列印 ====================
-        function printPage() {
-            window.print();
-        }
-
-        // ==================== 清空所有紀錄 ====================
-        function clearAllData() {
-            if (confirm('確定要清空所有紀錄嗎？（包括記帳、清單勾選、匯率轉換）')) {
-                localStorage.removeItem(STORAGE_KEYS.EXPENSES);
-                localStorage.removeItem(STORAGE_KEYS.CURRENCY);
-                localStorage.removeItem(STORAGE_KEYS.CHECKLIST);
-                localStorage.removeItem(STORAGE_KEYS.DAY_STATES);
-                
-                // 重新整理頁面
-                location.reload();
-            }
-        }
-
-        // ==================== 載入所有儲存的數據 ====================
-        function loadAllData() {
-            // 載入支出
-            displayExpenses();
-
-            // 載入日期展開狀態
-            const dayStates = loadData(STORAGE_KEYS.DAY_STATES, {});
-            Object.keys(dayStates).forEach(dayId => {
-                if (dayStates[dayId]) {
-                    const content = document.getElementById(dayId);
-                    const arrow = document.getElementById('arrow-' + dayId);
-                    if (content && arrow) {
-                        content.classList.add('active');
-                        arrow.classList.add('active');
-                    }
-                }
-            });
-
-            // 載入打包清單狀態
-            attachChecklistListeners();
-        }
-    </script>
+    function convertUrlsToLinks(text) {
+      if (!text) return '';
+      const urlRegex = /(https?:\/\/[^\s]+)/g;
+      return text.replace(urlRegex, url => `
+        <a href="${url}" target="_blank" class="text-thai-gold underline font-bold inline-flex items-center gap-0.5">
+          <i class="fa-solid fa-up-right-from-square text-[9px]"></i> 開啟連結
+        </a>
+      `);
+    }
+  </script>
 </body>
 </html>
