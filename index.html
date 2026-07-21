@@ -149,6 +149,15 @@
             background-color: #0277bd;
         }
 
+        .btn-warning {
+            background-color: #FFA500;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background-color: #FF8C00;
+        }
+
         /* ============ Info Cards ============ */
         .info-card {
             background: var(--card-bg);
@@ -416,6 +425,22 @@
             font-weight: 600;
         }
 
+        .save-status {
+            text-align: center;
+            padding: 8px 12px;
+            margin-top: 10px;
+            background: #e8f5e9;
+            border-radius: 6px;
+            color: var(--success-green);
+            font-size: 0.9rem;
+            animation: fadeInOut 2s ease-in-out;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
         /* ============ Grid Layout ============ */
         .grid-2 {
             display: grid;
@@ -642,7 +667,7 @@
                 padding-bottom: 0;
             }
 
-            .nav-tabs, .action-buttons, .map-link, .btn, .expense-tracker, .converter-container {
+            .nav-tabs, .action-buttons, .map-link, .btn, .expense-tracker, .converter-container, .save-status {
                 display: none;
             }
 
@@ -794,6 +819,7 @@
             <button class="btn btn-primary" onclick="downloadPDF()">📥 下載 PDF</button>
             <button class="btn btn-secondary" onclick="printPage()">🖨️ 列印</button>
             <button class="btn btn-info" onclick="loadWeather()">🌤️ 天氣預報</button>
+            <button class="btn btn-warning" onclick="clearAllData()">🔄 清空所有紀錄</button>
         </div>
 
         <!-- 1. 每日行程頁面 -->
@@ -1001,138 +1027,423 @@
                     </div>
                     <div class="form-group">
                         <label for="expense-amount">金額 (THB)</label>
-                        <input type="number" id="expense-amount" placeholder="輸入泰銖金額" min="0" step="0.01">
+                        <input type="number" id="expense-amount" placeholder="輸入泰銖金額" step="0.01">
                     </div>
                     <div class="form-group">
-                        <label for="expense-desc">說明 (選填)</label>
-                        <input type="text" id="expense-desc" placeholder="記錄消費內容">
+                        <label for="expense-description">備註（選填）</label>
+                        <input type="text" id="expense-description" placeholder="例如：午餐、門票等">
                     </div>
                     <div class="form-group" style="justify-content: flex-end;">
-                        <button class="btn btn-primary" onclick="addExpense()">新增記錄</button>
+                        <button class="btn btn-primary" onclick="addExpense()" style="width: 100%;">➕ 新增支出</button>
                     </div>
                 </div>
 
-                <div class="expense-list" id="expense-list">
-                    <p style="text-align: center; color: #999;">暫無記錄</p>
+                <div id="expense-list" class="expense-list">
+                    <!-- 由 JavaScript 動態插入 -->
                 </div>
 
                 <div class="expense-summary" id="expense-summary" style="display: none;">
                     <div class="expense-total-row">
-                        <span>總消費（泰銖）：</span>
-                        <span id="total-thb">฿ 0</span>
+                        <span>💰 旅程總支出</span>
+                        <span id="total-expense">฿ 0</span>
                     </div>
-                    <div class="expense-total-row" style="color: var(--primary-green);">
-                        <span>總消費（新台幣）：</span>
-                        <span id="total-twd">NT$ 0</span>
+                    <div class="expense-total-row">
+                        <span>📊 平均每人支出</span>
+                        <span id="avg-expense">฿ 0</span>
                     </div>
-                    <div class="expense-total-row" style="color: var(--terracotta); border-top: 2px solid var(--success-green); padding-top: 10px; margin-top: 10px;">
-                        <span>按類別統計：</span>
-                    </div>
-                    <div id="category-breakdown"></div>
-                    <button class="btn btn-secondary" onclick="clearExpenses()" style="margin-top: 10px; width: 100%;">清除所有記錄</button>
                 </div>
+
+                <div id="save-status-container"></div>
             </div>
         </section>
 
-        <!-- 4. 必備清單頁面 (可勾選方塊) -->
+        <!-- 4. 必備清單頁面 -->
         <section id="checklist" class="page-section">
             <div class="info-card">
-                <div class="card-title">📋 事先申請</div>
-                <div class="checklist-grid">
-                    <label class="checkbox-label">
-                        <input type="checkbox">
-                        <span>旅遊平安不便險投保</span>
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox">
-                        <span>Official Thailand Digital Arrival Card (TDAC)</span>
-                    </label>
+                <div class="card-title">🧳 行李必備清單</div>
+                
+                <div class="checklist-group">
+                    <h3 style="color: var(--terracotta); margin-bottom: 10px;">🛂 證件文件</h3>
+                    <div class="checklist-grid">
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="documents">
+                            <span>護照及影本</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="documents">
+                            <span>國際駕照</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="documents">
+                            <span>旅平險單據</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="documents">
+                            <span>信用卡 & 現金</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="documents">
+                            <span>機票確認單</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="documents">
+                            <span>飯店預訂確認</span>
+                        </label>
+                    </div>
                 </div>
-            </div>
 
-            <div class="info-card">
-                <div class="card-title">🧳 攜帶清單</div>
-                <div class="checklist-grid">
-                    <label class="checkbox-label"><input type="checkbox"><span>護照</span></label>
-                    <label class="checkbox-label"><input type="checkbox"><span>駕照正本</span></label>
-                    <label class="checkbox-label"><input type="checkbox"><span>國際駕照（英文版本）</span></label>
-                    <label class="checkbox-label"><input type="checkbox"><span>常備藥品（腸胃/暈車）</span></label>
-                    <label class="checkbox-label"><input type="checkbox"><span>水</span></label>
-                    <label class="checkbox-label"><input type="checkbox"><span>維他命</span></label>
-                    <label class="checkbox-label"><input type="checkbox"><span>防曬乳</span></label>
-                    <label class="checkbox-label"><input type="checkbox"><span>信用卡</span></label>
-                    <label class="checkbox-label"><input type="checkbox"><span>外幣（泰銖2萬現金）</span></label>
-                    <label class="checkbox-label"><input type="checkbox"><span>行動電源</span></label>
-                    <label class="checkbox-label"><input type="checkbox"><span>相機 & 記憶卡</span></label>
-                    <label class="checkbox-label"><input type="checkbox"><span>充電線 & 充電頭</span></label>
-                    <label class="checkbox-label"><input type="checkbox"><span>手持電風扇 / 扇子</span></label>
-                    <label class="checkbox-label"><input type="checkbox"><span>帽子</span></label>
-                    <label class="checkbox-label"><input type="checkbox"><span>雨傘 / 雨衣</span></label>
-                    <label class="checkbox-label"><input type="checkbox"><span>收納袋 / 壓縮袋</span></label>
-                    <label class="checkbox-label"><input type="checkbox"><span>枕頭 / 眼罩</span></label>
-                    <label class="checkbox-label"><input type="checkbox"><span>指甲剪（刀）</span></label>
-                    <label class="checkbox-label"><input type="checkbox"><span>盥洗用品 & 毛巾</span></label>
-                    <label class="checkbox-label"><input type="checkbox"><span>拖鞋 / 涼鞋</span></label>
-                    <label class="checkbox-label"><input type="checkbox"><span>替換衣服（多帶一套）</span></label>
-                    <label class="checkbox-label"><input type="checkbox"><span>防蚊液</span></label>
-                    <label class="checkbox-label"><input type="checkbox"><span>衛生棉</span></label>
-                    <label class="checkbox-label"><input type="checkbox"><span>衛生紙 / 濕紙巾</span></label>
-                    <label class="checkbox-label"><input type="checkbox"><span>酒精</span></label>
+                <div class="checklist-group">
+                    <h3 style="color: var(--terracotta); margin-bottom: 10px;">👕 衣著配飾</h3>
+                    <div class="checklist-grid">
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="clothes">
+                            <span>短袖 T-Shirt</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="clothes">
+                            <span>長褲/長裙（寺廟用）</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="clothes">
+                            <span>薄外套</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="clothes">
+                            <span>舒適布鞋</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="clothes">
+                            <span>涼鞋/拖鞋</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="clothes">
+                            <span>泳裝</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="clothes">
+                            <span>帽子/墨鏡</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="clothes">
+                            <span>內衣褲襪子</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="checklist-group">
+                    <h3 style="color: var(--terracotta); margin-bottom: 10px;">🧴 盥洗用品</h3>
+                    <div class="checklist-grid">
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="toiletries">
+                            <span>護照尺寸照片</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="toiletries">
+                            <span>牙膏牙刷</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="toiletries">
+                            <span>洗髮沐浴用品</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="toiletries">
+                            <span>防曬乳液</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="toiletries">
+                            <span>化妝品/鬍鬚刀</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="toiletries">
+                            <span>毛巾/擦手巾</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="toiletries">
+                            <span>衛生紙/濕紙巾</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="toiletries">
+                            <span>常用藥物</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="checklist-group">
+                    <h3 style="color: var(--terracotta); margin-bottom: 10px;">📱 3C 電子用品</h3>
+                    <div class="checklist-grid">
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="electronics">
+                            <span>手機及充電線</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="electronics">
+                            <span>行動電源</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="electronics">
+                            <span>轉接頭/變壓器</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="electronics">
+                            <span>相機及配件</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="electronics">
+                            <span>耳機</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" data-category="electronics">
+                            <span>手電筒/照明</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="reminder-box">
+                    <h3>✅ 出發前最後檢查</h3>
+                    <ul>
+                        <li>確認護照有效期 > 6 個月</li>
+                        <li>查詢泰國簽證需求</li>
+                        <li>通知銀行預計出國日期</li>
+                        <li>購買旅遊保險</li>
+                        <li>通知家人行程資訊</li>
+                        <li>關掉瓦斯/檢查門窗</li>
+                    </ul>
                 </div>
             </div>
         </section>
 
         <!-- 5. 小叮嚀頁面 -->
         <section id="tips" class="page-section">
-            <div class="reminder-box">
-                <h3>ℹ️ 清邁旅遊小叮嚀</h3>
-                <ul>
-                    <li><b>寺廟穿著限制：</b>參觀寺廟不能穿著短褲、短裙及無袖上衣。</li>
-                    <li><b>氣候與雨季：</b>前往期間為當地雨季，請隨身攜帶雨傘或雨衣。</li>
-                    <li><b>防曬與防蚊：</b>天氣炎熱且蚊蟲較多，建議準備防曬乳、防蚊液與帽子。</li>
-                    <li><b>大象行程備衣服：</b>有安排大象行程，建議多攜帶一套衣服替換。</li>
-                    <li><b>入境現金規定：</b>入境泰國查驗規定，每人須攜帶等值 2 萬泰銖之現金。</li>
-                    <li><b>食物過敏：</b>泰菜多使用花生與海鮮，如有過敏請提前告知教練。</li>
-                    <li><b>飲用水安全：</b>建議購買瓶裝水飲用，避免飲用自來水。</li>
-                    <li><b>尊重當地文化：</b>泰國將國王視為高度尊敬對象，言論與行為需特別留意。</li>
-                </ul>
+            <div class="info-card">
+                <div class="card-title">ℹ️ 旅遊小叮嚀</div>
+                
+                <div class="reminder-box">
+                    <h3>💱 貨幣 & 消費</h3>
+                    <ul>
+                        <li><b>匯率參考：</b>1 TWD ≈ 1.1 THB (實際匯率會變動)</li>
+                        <li><b>ATM 取款：</b>泰國 ATM 廣泛，建議攜帶 Visa/Mastercard</li>
+                        <li><b>消費習慣：</b>大多地區不需給小費，但餐廳/SPA 可選擇給 5-10%</li>
+                        <li><b>退稅：</b>購物滿 2,000 THB 可辦理 VAT 退稅</li>
+                    </ul>
+                </div>
+
+                <div class="reminder-box">
+                    <h3>🌡️ 氣候 & 防曬</h3>
+                    <ul>
+                        <li><b>清邁 7 月氣候：</b>濕熱季節，高溫 33-35°C，午後易有雨</li>
+                        <li><b>防曬必需：</b>高 SPF 防曬霜，帽子/太陽眼鏡必備</li>
+                        <li><b>保水：</b>隨身攜帶水瓶，補充電解質飲料</li>
+                        <li><b>服裝：</b>輕薄透氣衣物，在寺廟需著長褲/裙</li>
+                    </ul>
+                </div>
+
+                <div class="reminder-box">
+                    <h3>🧍 文化禮儀</h3>
+                    <ul>
+                        <li><b>尊重王室：</b>不可貶低或不尊重泰國王室成員</li>
+                        <li><b>進寺廟禮儀：</b>脫鞋、穿著長褲/裙、不可觸摸佛像</li>
+                        <li><b>問候方式：</b>合十禮是常見的禮儀</li>
+                        <li><b>飲酒文化：</b>敬酒時需雙手接杯</li>
+                    </ul>
+                </div>
+
+                <div class="reminder-box">
+                    <h3>🚗 交通 & 安全</h3>
+                    <ul>
+                        <li><b>計程車：</b>使用 Grab App 最安全，或選擇有 Meter 的黃色計程車</li>
+                        <li><b>騎機車：</b>需國際駕照，強制戴安全帽</li>
+                        <li><b>夜間活動：</b>避免獨自外出，結伴同行更安全</li>
+                        <li><b>一般安全：</b>清邁是安全城市，但需注意貴重物品</li>
+                    </ul>
+                </div>
+
+                <div class="reminder-box">
+                    <h3>🍜 美食 & 衛生</h3>
+                    <ul>
+                        <li><b>飲水：</b>建議喝瓶裝水或煮沸水</li>
+                        <li><b>道地美食：</b>必試清邁麵、咖哩、芒果糯米飯</li>
+                        <li><b>辛辣度：</b>第一次用餐時請先詢問辣度</li>
+                        <li><b>夜市推薦：</b>Saturday Walking Street & Sunday Walking Street</li>
+                    </ul>
+                </div>
+
+                <div class="reminder-box">
+                    <h3>📞 緊急聯絡</h3>
+                    <ul>
+                        <li><b>台北駐泰北經貿辦：</b>+66-53-283-021</li>
+                        <li><b>泰國警察：</b>191（觀光警察 1155）</li>
+                        <li><b>醫療服務：</b>清邁有多家國際醫院，如 Bangkok Hospital</li>
+                        <li><b>旅遊諮詢：</b>清邁旅遊局 +66-53-248-604</li>
+                    </ul>
+                </div>
             </div>
         </section>
+
     </div>
 
-    <!-- JavaScript 互動功能 -->
     <script>
-        // ========== 匯率配置 ==========
-        const EXCHANGE_RATE = 1.1; // 1 TWD = 1.1 THB (參考值，建議使用實時API更新)
+        // ==================== LocalStorage 管理 ====================
+        const STORAGE_KEYS = {
+            EXPENSES: 'chiang_mai_expenses',
+            CURRENCY: 'chiang_mai_currency',
+            CHECKLIST: 'chiang_mai_checklist',
+            DAY_STATES: 'chiang_mai_day_states',
+            EXCHANGE_RATE: 'chiang_mai_exchange_rate'
+        };
 
-        // ========== 頁籤切換 ==========
+        // ==================== 初始化 ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAllData();
+            attachChecklistListeners();
+            initializeCurrencyInputs();
+        });
+
+        // ==================== 通用儲存/讀取函數 ====================
+        function saveData(key, data) {
+            try {
+                localStorage.setItem(key, JSON.stringify(data));
+                showSaveStatus('✅ 已自動儲存');
+            } catch (e) {
+                console.error('Storage error:', e);
+            }
+        }
+
+        function loadData(key, defaultValue = null) {
+            try {
+                const data = localStorage.getItem(key);
+                return data ? JSON.parse(data) : defaultValue;
+            } catch (e) {
+                console.error('Load error:', e);
+                return defaultValue;
+            }
+        }
+
+        function showSaveStatus(message) {
+            const container = document.getElementById('save-status-container');
+            if (container) {
+                container.innerHTML = `<div class="save-status">${message}</div>`;
+                setTimeout(() => {
+                    container.innerHTML = '';
+                }, 2000);
+            }
+        }
+
+        // ==================== 頁籤切換 ====================
         function switchPage(pageId) {
+            // 隱藏所有頁面
             document.querySelectorAll('.page-section').forEach(section => {
                 section.classList.remove('active');
             });
+            // 顯示選定頁面
+            document.getElementById(pageId).classList.add('active');
+
+            // 更新按鈕狀態
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
-
-            document.getElementById(pageId).classList.add('active');
             event.target.classList.add('active');
         }
 
-        // ========== 每日行程展開/收合 ==========
+        // ==================== 日期展開/收合 ====================
         function toggleDay(dayId) {
             const content = document.getElementById(dayId);
             const arrow = document.getElementById('arrow-' + dayId);
             
-            if (content.classList.contains('active')) {
-                content.classList.remove('active');
-                arrow.classList.remove('active');
-            } else {
-                content.classList.add('active');
-                arrow.classList.add('active');
-            }
+            content.classList.toggle('active');
+            arrow.classList.toggle('active');
+
+            // 儲存展開狀態
+            const states = loadData(STORAGE_KEYS.DAY_STATES, {});
+            states[dayId] = content.classList.contains('active');
+            saveData(STORAGE_KEYS.DAY_STATES, states);
         }
 
-        // ========== 匯率轉換 ==========
+        // ==================== 記帳功能 ====================
+        function addExpense() {
+            const category = document.getElementById('expense-category').value;
+            const amount = parseFloat(document.getElementById('expense-amount').value);
+            const description = document.getElementById('expense-description').value;
+
+            if (isNaN(amount) || amount <= 0) {
+                alert('請輸入有效的金額');
+                return;
+            }
+
+            // 建立支出物件
+            const expense = {
+                id: Date.now(),
+                category,
+                amount,
+                description,
+                date: new Date().toLocaleString('zh-TW')
+            };
+
+            // 取得現有支出
+            let expenses = loadData(STORAGE_KEYS.EXPENSES, []);
+            expenses.push(expense);
+
+            // 儲存
+            saveData(STORAGE_KEYS.EXPENSES, expenses);
+
+            // 清空輸入框
+            document.getElementById('expense-amount').value = '';
+            document.getElementById('expense-description').value = '';
+
+            // 重新渲染
+            displayExpenses();
+        }
+
+        function deleteExpense(id) {
+            let expenses = loadData(STORAGE_KEYS.EXPENSES, []);
+            expenses = expenses.filter(exp => exp.id !== id);
+            saveData(STORAGE_KEYS.EXPENSES, expenses);
+            displayExpenses();
+        }
+
+        function displayExpenses() {
+            const expenses = loadData(STORAGE_KEYS.EXPENSES, []);
+            const listContainer = document.getElementById('expense-list');
+            const summaryContainer = document.getElementById('expense-summary');
+
+            if (expenses.length === 0) {
+                listContainer.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">還未有任何記帳紀錄</p>';
+                summaryContainer.style.display = 'none';
+                return;
+            }
+
+            // 按分類統計
+            const categoryTotals = {};
+            let totalAmount = 0;
+
+            expenses.forEach(exp => {
+                totalAmount += exp.amount;
+                if (!categoryTotals[exp.category]) {
+                    categoryTotals[exp.category] = 0;
+                }
+                categoryTotals[exp.category] += exp.amount;
+            });
+
+            // 渲染支出列表
+            listContainer.innerHTML = expenses.map(exp => `
+                <div class="expense-item">
+                    <div class="expense-item-info">
+                        <div class="expense-item-category">${exp.category}</div>
+                        <div class="expense-item-description">${exp.description || '無'} • ${exp.date}</div>
+                    </div>
+                    <div class="expense-item-amount">฿ ${exp.amount.toFixed(2)}</div>
+                    <button class="expense-item-delete" onclick="deleteExpense(${exp.id})">刪除</button>
+                </div>
+            `).join('');
+
+            // 更新摘要
+            document.getElementById('total-expense').textContent = `฿ ${totalAmount.toFixed(2)}`;
+            document.getElementById('avg-expense').textContent = `฿ ${(totalAmount / 2).toFixed(2)}`;
+            summaryContainer.style.display = 'block';
+        }
+
+        // ==================== 匯率轉換 ====================
+        const EXCHANGE_RATE = 1.1; // 1 TWD = 1.1 THB (參考值，可更新)
+
         function convertCurrency(source = 'twd') {
             const twdInput = document.getElementById('twd-amount');
             const thbInput = document.getElementById('thb-amount');
@@ -1144,105 +1455,75 @@
                 const thb = parseFloat(thbInput.value) || 0;
                 twdInput.value = (thb / EXCHANGE_RATE).toFixed(2);
             }
-        }
 
-        // ========== 記帳功能 ==========
-        let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
-
-        function addExpense() {
-            const category = document.getElementById('expense-category').value;
-            const amount = parseFloat(document.getElementById('expense-amount').value);
-            const description = document.getElementById('expense-desc').value;
-
-            if (!amount || amount <= 0) {
-                alert('請輸入有效的金額！');
-                return;
-            }
-
-            const expense = {
-                id: Date.now(),
-                category,
-                amount,
-                description,
-                date: new Date().toLocaleString('zh-TW')
+            // 儲存匯率輸入
+            const currencyData = {
+                twd: twdInput.value,
+                thb: thbInput.value,
+                timestamp: new Date().toISOString()
             };
-
-            expenses.push(expense);
-            localStorage.setItem('expenses', JSON.stringify(expenses));
-
-            document.getElementById('expense-amount').value = '';
-            document.getElementById('expense-desc').value = '';
-
-            updateExpenseList();
+            saveData(STORAGE_KEYS.CURRENCY, currencyData);
         }
 
-        function deleteExpense(id) {
-            expenses = expenses.filter(exp => exp.id !== id);
-            localStorage.setItem('expenses', JSON.stringify(expenses));
-            updateExpenseList();
-        }
-
-        function updateExpenseList() {
-            const expenseList = document.getElementById('expense-list');
-            const expenseSummary = document.getElementById('expense-summary');
-
-            if (expenses.length === 0) {
-                expenseList.innerHTML = '<p style="text-align: center; color: #999;">暫無記錄</p>';
-                expenseSummary.style.display = 'none';
-                return;
+        function initializeCurrencyInputs() {
+            const currencyData = loadData(STORAGE_KEYS.CURRENCY, {});
+            if (currencyData.twd) {
+                document.getElementById('twd-amount').value = currencyData.twd;
             }
+            if (currencyData.thb) {
+                document.getElementById('thb-amount').value = currencyData.thb;
+            }
+        }
 
-            expenseList.innerHTML = expenses.map(exp => `
-                <div class="expense-item">
-                    <div class="expense-item-info">
-                        <div class="expense-item-category">${exp.category}</div>
-                        <div class="expense-item-description">${exp.description || '無說明'} • ${exp.date}</div>
-                    </div>
-                    <span class="expense-item-amount">฿ ${exp.amount.toFixed(2)}</span>
-                    <button class="expense-item-delete" onclick="deleteExpense(${exp.id})">刪除</button>
+        // ==================== 打包清單 ====================
+        function attachChecklistListeners() {
+            document.querySelectorAll('.checkbox-label input[type="checkbox"]').forEach(checkbox => {
+                // 加載儲存的狀態
+                const category = checkbox.getAttribute('data-category');
+                const savedStates = loadData(STORAGE_KEYS.CHECKLIST, {});
+                const itemText = checkbox.nextElementSibling.textContent;
+                const key = `${category}_${itemText}`;
+                
+                if (savedStates[key]) {
+                    checkbox.checked = true;
+                }
+
+                // 監聽變化
+                checkbox.addEventListener('change', function() {
+                    const states = loadData(STORAGE_KEYS.CHECKLIST, {});
+                    states[key] = this.checked;
+                    saveData(STORAGE_KEYS.CHECKLIST, states);
+                });
+            });
+        }
+
+        // ==================== 天氣預報（模擬） ====================
+        function loadWeather() {
+            const weatherData = [
+                { day: '7/27 (一)', temp: '33°C', condition: '晴時多雲' },
+                { day: '7/28 (二)', temp: '32°C', condition: '午後雷陣雨' },
+                { day: '7/29 (三)', temp: '31°C', condition: '多雲' },
+                { day: '7/30 (四)', temp: '34°C', condition: '晴朗' },
+                { day: '7/31 (五)', temp: '32°C', condition: '晴時多雲' }
+            ];
+
+            const weatherContainer = document.getElementById('weather-data');
+            weatherContainer.innerHTML = weatherData.map(w => `
+                <div class="weather-day">
+                    <div class="weather-day-name">${w.day}</div>
+                    <div class="weather-temp">${w.temp}</div>
+                    <div class="weather-condition">${w.condition}</div>
                 </div>
             `).join('');
-
-            // 更新統計
-            const totalThb = expenses.reduce((sum, exp) => sum + exp.amount, 0);
-            const totalTwd = totalThb / EXCHANGE_RATE;
-
-            document.getElementById('total-thb').textContent = `฿ ${totalThb.toFixed(2)}`;
-            document.getElementById('total-twd').textContent = `NT$ ${totalTwd.toFixed(0)}`;
-
-            // 按類別統計
-            const categoryBreakdown = {};
-            expenses.forEach(exp => {
-                categoryBreakdown[exp.category] = (categoryBreakdown[exp.category] || 0) + exp.amount;
-            });
-
-            const categoryHTML = Object.entries(categoryBreakdown)
-                .map(([cat, amount]) => `
-                    <div style="padding: 5px 0; display: flex; justify-content: space-between;">
-                        <span>${cat}</span>
-                        <span>฿ ${amount.toFixed(2)}</span>
-                    </div>
-                `)
-                .join('');
-
-            document.getElementById('category-breakdown').innerHTML = categoryHTML;
-            expenseSummary.style.display = 'block';
+            weatherContainer.style.display = 'grid';
         }
 
-        function clearExpenses() {
-            if (confirm('確定要清除所有記錄嗎？')) {
-                expenses = [];
-                localStorage.setItem('expenses', JSON.stringify(expenses));
-                updateExpenseList();
-            }
-        }
-
-        // ========== 下載 PDF ==========
+        // ==================== PDF 下載 ====================
         function downloadPDF() {
             const element = document.querySelector('.container');
             const opt = {
                 margin: 10,
-                filename: '清邁5天4夜行程表.pdf',
+                filename: '清邁旅遊行程.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2 },
                 jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
@@ -1250,79 +1531,45 @@
             html2pdf().set(opt).from(element).save();
         }
 
-        // ========== 列印 ==========
+        // ==================== 列印 ====================
         function printPage() {
             window.print();
         }
 
-        // ========== 天氣預報 ==========
-        async function loadWeather() {
-            try {
-                const response = await fetch(
-                    'https://api.open-meteo.com/v1/forecast?latitude=18.7883&longitude=98.9853&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weather_code&timezone=Asia/Bangkok'
-                );
-                const data = await response.json();
+        // ==================== 清空所有紀錄 ====================
+        function clearAllData() {
+            if (confirm('確定要清空所有紀錄嗎？（包括記帳、清單勾選、匯率轉換）')) {
+                localStorage.removeItem(STORAGE_KEYS.EXPENSES);
+                localStorage.removeItem(STORAGE_KEYS.CURRENCY);
+                localStorage.removeItem(STORAGE_KEYS.CHECKLIST);
+                localStorage.removeItem(STORAGE_KEYS.DAY_STATES);
                 
-                const weatherDescriptions = {
-                    0: '晴天', 1: '主要晴朗', 2: '部分陰雲', 3: '陰天',
-                    45: '霧', 48: '霧', 51: '毛毛雨', 53: '中等毛毛雨',
-                    55: '強毛毛雨', 61: '小雨', 63: '中等雨', 65: '強雨',
-                    71: '小雪', 73: '中等雪', 75: '強雪', 77: '冰晶',
-                    80: '陣雨', 81: '中等陣雨', 82: '強陣雨', 85: '小陣雪',
-                    86: '強陣雪', 95: '雷暴', 96: '有冰雹的雷暴', 99: '有冰晶的雷暴'
-                };
-
-                const dayNames = ['Day 1 (07/27)', 'Day 2 (07/28)', 'Day 3 (07/29)', 'Day 4 (07/30)', 'Day 5 (07/31)'];
-                let weatherHTML = '';
-
-                for (let i = 0; i < Math.min(5, data.daily.time.length); i++) {
-                    const maxTemp = data.daily.temperature_2m_max[i];
-                    const minTemp = data.daily.temperature_2m_min[i];
-                    const precipitation = data.daily.precipitation_sum[i];
-                    const weatherCode = data.daily.weather_code[i];
-                    const condition = weatherDescriptions[weatherCode] || '未知';
-
-                    weatherHTML += `
-                        <div class="weather-day">
-                            <div class="weather-day-name">${dayNames[i]}</div>
-                            <div class="weather-temp">${maxTemp}°C / ${minTemp}°C</div>
-                            <div class="weather-condition">${condition}</div>
-                            <p style="font-size: 0.8rem; color: #0288d1; margin-top: 5px;">💧 ${precipitation}mm</p>
-                        </div>
-                    `;
-                }
-
-                document.getElementById('weather-data').innerHTML = weatherHTML;
-                document.getElementById('weather-data').style.display = 'grid';
-                
-                alert('✅ 天氣資訊已更新！');
-            } catch (error) {
-                alert('❌ 無法獲取天氣資訊，請檢查網路連線。');
-                console.error('天氣API錯誤:', error);
+                // 重新整理頁面
+                location.reload();
             }
         }
 
-        // ========== 頁面載入初始化 ==========
-        document.addEventListener('DOMContentLoaded', function() {
-            // 延遲載入圖片
-            document.querySelectorAll('img').forEach(img => {
-                img.loading = 'lazy';
-            });
+        // ==================== 載入所有儲存的數據 ====================
+        function loadAllData() {
+            // 載入支出
+            displayExpenses();
 
-            // 載入記帳記錄
-            updateExpenseList();
-        });
-
-        // ========== 平滑滾動 ==========
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
+            // 載入日期展開狀態
+            const dayStates = loadData(STORAGE_KEYS.DAY_STATES, {});
+            Object.keys(dayStates).forEach(dayId => {
+                if (dayStates[dayId]) {
+                    const content = document.getElementById(dayId);
+                    const arrow = document.getElementById('arrow-' + dayId);
+                    if (content && arrow) {
+                        content.classList.add('active');
+                        arrow.classList.add('active');
+                    }
                 }
             });
-        });
+
+            // 載入打包清單狀態
+            attachChecklistListeners();
+        }
     </script>
 </body>
 </html>
